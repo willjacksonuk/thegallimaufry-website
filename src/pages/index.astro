@@ -1,17 +1,42 @@
 ---
+import { getEpisodes } from "../lib/buzzsprout";
+import convert from 'url-slug'
 
+const episodes = await getEpisodes();
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>The Gallimaufry History Podcast</title>
+  </head>
+  <body>
+    <main>
+      <h1>Episodes</h1>
+
+      <ul>
+        {
+          episodes.map((episode) => (
+            <li>
+              <a href={`/episodes/${convert(episode.title)}`}>
+                <h2>{episode.title}</h2>
+              </a>
+              <p>
+                {new Date(episode.published_at).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </p>
+              <p>{episode.summary}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+  </body>
 </html>
