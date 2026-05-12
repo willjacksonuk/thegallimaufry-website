@@ -1,0 +1,67 @@
+---
+import { getEpisode, getEpisodes } from '../../lib/buzzsprout'
+import type { Episode } from '../../types/episode'
+
+import convert from "url-slug";
+
+export async function getStaticPaths() {
+  const episodes = await getEpisodes();
+
+  return episodes.map((episode) => ({
+    params: { slug: convert(episode.title) },
+    props: { episode },
+  }));
+}
+
+const { episode } = Astro.props as { episode: Episode };
+
+function formatDuration(seconds: number): string {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+
+  if (hours > 0) {
+    return `${hours}h ${minutes}m`;
+  }
+  return `${minutes} mins`;
+}
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta names"viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{episode.title}</title>
+    <meta name="description" content="{episode.summary" />
+  </head>
+  <body>
+    <main>
+      <a href="/">Back to episodes</a>
+
+      {
+        episode.artwork_url && (
+          <img src={episode.artwork_url} alt={`Artword for ${episode.title}`} />
+        )
+      }
+
+      <h1>{episode.title}</h1>
+
+      <p>
+        {
+          new Date(episode.published_at).toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })
+        }
+        . {formatDuration(episode.duration)}
+      </p>
+
+      <audio controls src={episode.audio_url}>
+        Your browser does not support the audio element.
+      </audio>
+
+      <!-- Buzzsprout episode descriptions can contain HTML. This will make sure it's rendered as expected. -->
+      <div set:html="{episode.desciption" />
+    </main>
+  </body>
+</html>
