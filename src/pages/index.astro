@@ -1,6 +1,6 @@
 ---
 import { getEpisodes } from "../lib/buzzsprout";
-import convert from 'url-slug'
+import convert from "url-slug";
 
 const episodes = await getEpisodes();
 ---
@@ -22,7 +22,9 @@ const episodes = await getEpisodes();
         {
           episodes.map((episode) => (
             <li>
-              <a href={`/episodes/${convert(episode.title)}`}>
+              <a
+                href={`/episodes/${convert(episode.title, { dictionary: { Æ: "A" } })}`}
+              >
                 <h2>{episode.title}</h2>
               </a>
               <p>
