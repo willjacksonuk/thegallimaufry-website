@@ -1,122 +1,87 @@
 ---
+import Layout from "../layouts/Layout.astro";
+
 import { getEpisodes } from "../lib/buzzsprout";
 import convert from "url-slug";
 import { formatDuration } from "../lib/buzzsprout";
-import "../styles/global.css";
+import { formatDate } from "../lib/buzzsprout";
 
 const episodes = await getEpisodes();
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>The Gallimaufry History Podcast</title>
-  </head>
-  <body>
-    <main>
+<Layout>
+  <!-- Hero section -->
+  <section>
+    <div class="hero">
       <div class="container">
-        <!-- Header -->
-        <header>
-          <nav>
-            <span class="brand">The Gallimaufry</span>
-            <div class="nav-items">
-              <a class="nav-item" href="/about">About</a>
-              <a class="nav-item" href="/subscribe">Subscribe</a>
-            </div>
-          </nav>
-        </header>
-      </div>
-
-      <!-- Hero section -->
-      <section>
-        <div class="hero">
-          <div class="container">
-            <p class="hero-eyebrow">
-              A hodgepodge history podcast &nbsp;·&nbsp; Est. 2020
-            </p>
-            <h1 class="hero-header">
-              <span class="hero-the">the</span><br>
-              <span class="hero-title">Gallimaufry</span>
-            </h1>
-            <p class="hero-description">
-              Two lovers of the past pontificate on the weird, the wonderful,
-              and the often overlooked. Crafted in a carpet shop basement. New
-              episodes every month.
-            </p>
-            <div class="hero-pills">
-              <a
-                href="https://podcasts.apple.com/podcast/id1541207040"
-                target="_blank"
-                class="hero-pill">Apple Podcasts</a
-              >
-              <a
-                href="https://open.spotify.com/show/4QO6YrQMbF8KtgpGCjmlQZ"
-                target="_blank"
-                class="hero-pill">Spotify</a
-              >
-              <a
-                href="https://music.amazon.com/podcasts/275087d3-2808-4d10-a949-e3c193ea0e92"
-                target="_blank"
-                class="hero-pill">Amazon Music</a
-              >
-              <a
-                href="https://feeds.buzzsprout.com/1460611.rss"
-                target="_blank"
-                class="hero-pill">RSS</a
-              >
-            </div>
-          </div>
+        <p class="hero-eyebrow">A hodgepodge history podcast - Est. 2020</p>
+        <h1 class="hero-header">
+          <span class="hero-the">the</span><br />
+          <span class="hero-title">Gallimaufry</span>
+        </h1>
+        <p class="hero-description">
+          Two lovers of the past pontificate on the weird, the wonderful, and
+          the often overlooked. Crafted in a carpet shop basement. New episodes
+          every month.
+        </p>
+        <div class="subscribe-buttons">
+          <a
+            href="https://podcasts.apple.com/podcast/id1541207040"
+            target="_blank"
+            class="subscribe-button">Apple Podcasts</a
+          >
+          <a
+            href="https://open.spotify.com/show/4QO6YrQMbF8KtgpGCjmlQZ"
+            target="_blank"
+            class="subscribe-button">Spotify</a
+          >
+          <a
+            href="https://music.amazon.com/podcasts/275087d3-2808-4d10-a949-e3c193ea0e92"
+            target="_blank"
+            class="subscribe-button">Amazon Music</a
+          >
+          <a
+            href="https://feeds.buzzsprout.com/1460611.rss"
+            target="_blank"
+            class="subscribe-button">RSS</a
+          >
         </div>
-      </section>
-
-      <!-- New episode listing -->
-      <div class="container">
-        <section>
-          <div class="episode-list">
-            <div class="episode-header">
-              <span class="episode-header-title">Episodes</span>
-              <span class="episode-header-count"
-                >{Object.keys(episodes).length} total</span
-              >
-            </div>
-
-            {
-              episodes.map((episode) => (
-                <div class="episode-row">
-                  <span class="episode-number">{episode.episode_number}</span>
-                  <span class="episode-title">
-                    <a
-                      href={`/episodes/${convert(episode.title, { dictionary: { Æ: "A" } })}`}
-                    >
-                      <p>{episode.title}</p>
-                    </a>
-                  </span>
-                  <div class="episode-data">
-                    <span class="episode-date">
-                      {new Date(episode.published_at).toLocaleDateString(
-                        "en-GB",
-                        {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        },
-                      )}
-                    </span>
-                    <span class="episode-length">
-                      {formatDuration(episode.duration)}
-                    </span>
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-          <a class="see-all-episodes" href="#">See all 40 episodes →</a>
-        </section>
       </div>
-    </main>
-  </body>
-</html>
+    </div>
+  </section>
+
+  <!-- Episode listing -->
+  <section class="container">
+    <div class="episode-list">
+      <div class="episode-header">
+        <span class="episode-header-title">Episodes</span>
+        <span class="episode-header-count"
+          >{Object.keys(episodes).length} total</span
+        >
+      </div>
+
+      {
+        episodes.map((episode) => (
+          <div class="episode-row">
+            <span class="episode-number">{episode.episode_number}</span>
+            <span class="episode-title">
+              <a
+                href={`/episodes/${convert(episode.title, { dictionary: { Æ: "A" } })}`}
+              >
+                <p>{episode.title}</p>
+              </a>
+            </span>
+            <div class="episode-data">
+              <span class="episode-date">
+                {formatDate(episode.published_at)}
+              </span>
+              <span class="episode-length">
+                {formatDuration(episode.duration)}
+              </span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Layout>
