@@ -41,3 +41,14 @@ export async function getEpisode(id: number): Promise<Episode> {
 
     return response.json()
 }
+
+/* Take the duration in seconds and convert it into easily readable minutes and seconds */
+export function formatDuration(seconds: number): string {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+
+  if (hours > 0) {
+    return `${hours}h ${minutes}m`;
+  }
+  return `${minutes} mins`;
+}

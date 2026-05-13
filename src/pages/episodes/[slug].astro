@@ -1,6 +1,7 @@
 ---
 import { getEpisode, getEpisodes } from "../../lib/buzzsprout";
 import type { Episode } from "../../types/episode";
+import { formatDuration } from '../../lib/buzzsprout'
 
 import convert from "url-slug";
 
@@ -14,16 +15,6 @@ export async function getStaticPaths() {
 }
 
 const { episode } = Astro.props as { episode: Episode };
-
-function formatDuration(seconds: number): string {
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-
-  if (hours > 0) {
-    return `${hours}h ${minutes}m`;
-  }
-  return `${minutes} mins`;
-}
 ---
 
 <html lang="en">
