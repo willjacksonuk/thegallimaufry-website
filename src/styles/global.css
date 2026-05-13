@@ -318,3 +318,9 @@ a.subscribe-button {
     font-size: 0.75rem;
     color: var(--tg-muted);
 }
+
+.hero>.container {
+    border:solid 1px var(--tg-accent);
+    border-radius: 0.5rem;
+    padding: 2.5rem;
+}
