@@ -1,6 +1,7 @@
 ---
 import { getEpisodes } from "../lib/buzzsprout";
 import convert from "url-slug";
+import "../styles/global.css";
 
 const episodes = await getEpisodes();
 ---
@@ -16,8 +17,36 @@ const episodes = await getEpisodes();
   </head>
   <body>
     <main>
-      <h1>Episodes</h1>
 
+      <!-- Navigation section -->
+      <nav>
+        <span class="brand">The Gallimaufry</span>
+        <div class="nav-items">
+          <a class="nav-item" href="#">About</a>
+          <a class="nav-item" href="#">Subscribe</a>
+          <!-- The theme toggle will go here -->
+          <button>Light</button>
+        </div>
+      </nav>
+
+      <!-- Hero section -->
+      <div class="hero">
+        <p class="hero-eyebrow">A hodgepodge history podcast &nbsp;·&nbsp; Est. 2020</p>
+        <h1 class="hero-title">The Gallimaufry</h1>
+        <p class="hero-description">
+          Two lovers of the past on the weird, the wonderful, and the often
+          overlooked. Crafted in a carpet shop basement. New episodes every
+          month.
+        </p>
+        <div class="hero-pills">
+          <button class="hero-pill">Apple Podcasts</button>
+          <button class="hero-pill">Spotify</button>
+          <button class="hero-pill">Amazon Music</button>
+          <button class="hero-pill">RSS</button>
+        </div>
+      </div>
+
+      <!-- Old episode listing - to be replaced -->
       <ul>
         {
           episodes.map((episode) => (
