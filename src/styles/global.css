@@ -1,3 +1,4 @@
+/* Import Cabin font */
 @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
 
 /* --- Reset --- */
@@ -7,18 +8,24 @@
     box-sizing: border-box;
 }
 
+a {
+    color: var(--tg-white);
+    text-decoration: none;
+}
+
 :root {
     --tg-background: #13172A;
     --tg-accent: #C99A2C;
     --tg-text: #EDE7DB;
     --tg-muted: #6A6474;
     --tg-border: #2E2A38;
+    --tg-font: 'Cabin', sans-serif
 }
 
 html {
     background: var(--tg-background);
     color: var(--tg-text);
-    font-family: 'Cabin', sans-serif;
+    font-family: var(--tg-font);
 }
 
 /* --- Nav --- */
@@ -27,13 +34,13 @@ nav {
     align-items: center;
     justify-content: space-between;
     padding: 1rem 2rem;
-    border-bottom: 1px solid var(--tg-border)
+    border-bottom: 1px solid var(--tg-border);
 }
 
 .brand {
     font-weight: 600;
     letter-spacing: .2rem;
-    text-transform: uppercase
+    text-transform: uppercase;
 }
 
 .nav-items {
@@ -45,30 +52,30 @@ nav {
 .nav-item {
     color: var(--tg-muted);
     text-decoration: none;
-    transition: color .15s
+    transition: color .15s;
 }
 
 .nav-item:hover {
-    color: var(--tg-accent)
+    color: var(--tg-accent);
 }
 
 /* --- Hero --- */
 .hero {
-    padding: 3rem 2rem 3rem;
+    padding: 4rem 2rem;
     border-bottom: 1px solid var(--tg-border);
     background:
         /* Grain effect */
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' opacity='0.3' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
-        
+
         /* Gold from top right */
         radial-gradient(circle at 85% 0%, rgba(201, 154, 44, 0.12) 0%, transparent 60%),
-        
+
         /* Ambient glow from bottom left */
         radial-gradient(ellipse at 15% 100%, rgba(106, 100, 116, 0.18) 0%, transparent 70%),
-        
+
         /* Background */
         var(--tg-background);
-    
+
     /* Using 'soft-light' keeps the grain elegant against the dark background */
     background-blend-mode: soft-light, normal, normal;
 }
@@ -79,6 +86,7 @@ nav {
     letter-spacing: 0.2rem;
     text-transform: uppercase;
     color: var(--tg-accent);
+    margin-bottom: 1rem;
 }
 
 .hero-title {
@@ -86,6 +94,7 @@ nav {
     font-weight: 700;
     text-transform: uppercase;
     margin: 0 0 0.5rem 0;
+    letter-spacing: 0.25rem;
 }
 
 .hero-description {
@@ -102,8 +111,8 @@ nav {
     flex-wrap: wrap;
 }
 
-.hero-pill {
-    font-size: 0.7rem;
+a.hero-pill {
+    font-size: 0.75rem;
     padding: 0.5rem 1rem;
     border-radius: 1rem;
     border: 1px solid var(--tg-text);
@@ -111,11 +120,106 @@ nav {
     background: transparent;
     cursor: pointer;
     letter-spacing: .02rem;
-    transition: all .15s
+    transition: all .15s;
+    text-decoration: none;
 }
 
 .hero-pill:hover {
     color: var(--tg-text);
     border-color: var(--tg-accent);
     background: color-mix(in srgb, var(--tg-accent) 10%, transparent);
+}
+
+/* --- Episode list --- */
+.episode-list {
+    border-top: 1px solid var(--bo);
+    padding: 2rem;
+}
+
+.episode-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.episode-header-title {
+    font-size: 0.75rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--tg-accent);
+}
+
+.episode-header-count {
+    font-size: 0.75rem;
+    color: var(--tg-muted);
+}
+
+.episode-row {
+    display: flex;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--tg-border);
+    cursor: pointer;
+    transition: background .15s;
+    align-items: center;
+    padding-left: 2rem; 
+    padding-right: 2rem;
+    margin-left: -2rem;
+    margin-right: -2rem;
+}
+
+.episode-row:last-child {
+    border-bottom: none
+}
+
+.episode-row:hover {
+    background: color-mix(in srgb, var(--tg-text) 5%, transparent);
+}
+
+.episode-number {
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-width: 2rem;
+    color: var(--tg-accent)
+}
+
+.episode-title {
+    font-size: 1rem;
+    font-weight: 500;
+    flex: 1;
+}
+
+.episode-data {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-shrink: 0
+}
+
+.episode-date {
+    font-size: 0.75rem;
+    color: var(--tg-muted)
+}
+
+.episode-length {
+    font-size: 0.75rem;
+    color: var(--tg-muted);
+    font-variant-numeric: tabular-nums;
+    min-width: 2.5rem;
+    text-align: right
+}
+
+.see-all-episodes {
+    display: block;
+    padding: 1rem 1.5rem 0;
+    font-size: 0.75rem;
+    color: var(--tg-muted);
+    text-decoration: none;
+    letter-spacing: 0.05rem;
+    transition: color 0.15s;
+}
+
+.see-all-episodes:hover {
+    color: var(--tg-accent);
 }
