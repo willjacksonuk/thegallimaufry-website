@@ -2,6 +2,7 @@
 import { getEpisodes } from "../lib/buzzsprout";
 import convert from "url-slug";
 import "../styles/global.css";
+import { formatDuration } from "../lib/buzzsprout";
 
 const episodes = await getEpisodes();
 ---
@@ -18,56 +19,93 @@ const episodes = await getEpisodes();
   <body>
     <main>
 
-      <!-- Navigation section -->
-      <nav>
-        <span class="brand">The Gallimaufry</span>
-        <div class="nav-items">
-          <a class="nav-item" href="#">About</a>
-          <a class="nav-item" href="#">Subscribe</a>
-          <!-- The theme toggle will go here -->
-          <button>Light</button>
-        </div>
-      </nav>
+      <!-- Header -->
+      <header>
+        <nav>
+          <span class="brand">The Gallimaufry</span>
+          <div class="nav-items">
+            <a class="nav-item" href="#">About</a>
+            <a class="nav-item" href="#">Subscribe</a>
+            <!-- The theme toggle will go here -->
+            <button>Light</button>
+          </div>
+        </nav>
+      </header>
 
       <!-- Hero section -->
-      <div class="hero">
-        <p class="hero-eyebrow">A hodgepodge history podcast &nbsp;·&nbsp; Est. 2020</p>
-        <h1 class="hero-title">The Gallimaufry</h1>
-        <p class="hero-description">
-          Two lovers of the past on the weird, the wonderful, and the often
-          overlooked. Crafted in a carpet shop basement. New episodes every
-          month.
-        </p>
-        <div class="hero-pills">
-          <button class="hero-pill">Apple Podcasts</button>
-          <button class="hero-pill">Spotify</button>
-          <button class="hero-pill">Amazon Music</button>
-          <button class="hero-pill">RSS</button>
+      <section>
+        <div class="hero">
+          <p class="hero-eyebrow">
+            A hodgepodge history podcast &nbsp;·&nbsp; Est. 2020
+          </p>
+          <h1 class="hero-title">The Gallimaufry</h1>
+          <p class="hero-description">
+            Two lovers of the past pontificate on the weird, the wonderful, and the often
+            overlooked. Crafted in a carpet shop basement. New episodes every
+            month.
+          </p>
+          <div class="hero-pills">
+            <a
+              href="https://podcasts.apple.com/podcast/id1541207040"
+              class="hero-pill">Apple Podcasts</a
+            >
+            <a
+              href="https://open.spotify.com/show/4QO6YrQMbF8KtgpGCjmlQZ"
+              class="hero-pill">Spotify</a
+            >
+            <a
+              href="https://music.amazon.com/podcasts/275087d3-2808-4d10-a949-e3c193ea0e92"
+              class="hero-pill">Amazon Music</a
+            >
+            <a href="https://feeds.buzzsprout.com/1460611.rss" class="hero-pill"
+              >RSS</a
+            >
+          </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Old episode listing - to be replaced -->
-      <ul>
-        {
-          episodes.map((episode) => (
-            <li>
-              <a
-                href={`/episodes/${convert(episode.title, { dictionary: { Æ: "A" } })}`}
-              >
-                <h2>{episode.title}</h2>
-              </a>
-              <p>
-                {new Date(episode.published_at).toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </p>
-              <p>{episode.summary}</p>
-            </li>
-          ))
-        }
-      </ul>
+      <!-- New episode listing -->
+      <section>
+        <div class="episode-list">
+          <div class="episode-header">
+            <span class="episode-header-title">Episodes</span>
+            <span class="episode-header-count"
+              >{Object.keys(episodes).length} total</span
+            >
+          </div>
+
+          {
+            episodes.map((episode) => (
+              <div class="episode-row">
+                <span class="episode-number">{episode.episode_number}</span>
+                <span class="episode-title">
+                  <a
+                    href={`/episodes/${convert(episode.title, { dictionary: { Æ: "A" } })}`}
+                  >
+                    <p>{episode.title}</p>
+                  </a>
+                </span>
+                <div class="episode-data">
+                  <span class="episode-date">
+                    {new Date(episode.published_at).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      },
+                    )}
+                  </span>
+                  <span class="episode-length">
+                    {formatDuration(episode.duration)}
+                  </span>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <a class="see-all-episodes" href="#">See all 40 episodes →</a>
+      </section>
     </main>
   </body>
 </html>
