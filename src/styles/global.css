@@ -229,20 +229,6 @@ a.subscribe-button {
     text-align: right
 }
 
-.see-all-episodes {
-    display: block;
-    padding: 1rem 1.5rem 0;
-    font-size: 0.75rem;
-    color: var(--tg-muted);
-    text-decoration: none;
-    letter-spacing: 0.05rem;
-    transition: color 0.15s;
-}
-
-.see-all-episodes:hover {
-    color: var(--tg-accent);
-}
-
 /* --- Episode pages --- */
 .episode-hero-title {
     font-size: 3rem;
@@ -250,6 +236,8 @@ a.subscribe-button {
     text-transform: uppercase;
     letter-spacing: 0.5rem;
     max-width: var(--text-max-width);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .episode-hero-time {
@@ -257,7 +245,6 @@ a.subscribe-button {
     line-height: 1.7;
     color: var(--tg-muted);
     max-width: var(--text-max-width);
-    margin-top: 1rem;
 }
 
 .episode-player-container {
