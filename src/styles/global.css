@@ -19,7 +19,8 @@ a {
     --tg-text: #EDE7DB;
     --tg-muted: #ADADAD;
     --tg-border: #2E2A38;
-    --tg-font: 'Cabin', sans-serif
+    --tg-font: 'Cabin', sans-serif;
+    --max-width: 1024px;
 }
 
 html {
@@ -28,13 +29,17 @@ html {
     font-family: var(--tg-font);
 }
 
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
 /* --- Nav --- */
 nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 1.5rem 2rem;
-    border-bottom: 1px solid var(--tg-border);
 }
 
 .brand {
@@ -62,6 +67,7 @@ nav {
 /* --- Hero --- */
 .hero {
     padding: 4rem 2rem;
+    border-top: 1px solid var(--tg-border);
     border-bottom: 1px solid var(--tg-border);
     background:
         /* Grain effect */
@@ -101,7 +107,7 @@ nav {
     font-size: 0.9rem;
     line-height: 1.7;
     color: var(--tg-muted);
-    max-width: 480px;
+    max-width: 512px;
     margin-bottom: 1.5rem;
 }
 
@@ -163,7 +169,7 @@ a.hero-pill {
     cursor: pointer;
     transition: background .15s;
     align-items: center;
-    padding-left: 2rem; 
+    padding-left: 2rem;
     padding-right: 2rem;
     margin-left: -2rem;
     margin-right: -2rem;
