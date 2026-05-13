@@ -37,7 +37,7 @@ npm install
 Create a `.env` file in the project root:
 
 ```
-BUZZSPROUT_TOKEN=your_token_here
+BUZZSPROUT_API_TOKEN=your_token_here
 BUZZSPROUT_PODCAST_ID=your_podcast_id_here
 ```
 
