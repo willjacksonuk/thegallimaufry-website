@@ -22,7 +22,7 @@ export interface Episode {
     total_plays: number
 }
 
-/* Here is an example of the data retrieved for a single episode.
+/* Here is an example of the data retrieved for a single episode:
 {
     "id":16032850,
     "title":"Æthelstan, King of the whole of Britain",
