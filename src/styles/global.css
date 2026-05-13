@@ -17,7 +17,7 @@ a {
     --tg-background: #13172A;
     --tg-accent: #C99A2C;
     --tg-text: #EDE7DB;
-    --tg-muted: #6A6474;
+    --tg-muted: #ADADAD;
     --tg-border: #2E2A38;
     --tg-font: 'Cabin', sans-serif
 }
@@ -33,7 +33,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 2rem;
+    padding: 1.5rem 2rem;
     border-bottom: 1px solid var(--tg-border);
 }
 
@@ -114,7 +114,7 @@ nav {
 a.hero-pill {
     font-size: 0.75rem;
     padding: 0.5rem 1rem;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     border: 1px solid var(--tg-text);
     color: var(--tg-muted);
     background: transparent;
