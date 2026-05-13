@@ -1,6 +1,6 @@
 ---
-import { getEpisode, getEpisodes } from '../../lib/buzzsprout'
-import type { Episode } from '../../types/episode'
+import { getEpisode, getEpisodes } from "../../lib/buzzsprout";
+import type { Episode } from "../../types/episode";
 
 import convert from "url-slug";
 
@@ -59,9 +59,7 @@ function formatDuration(seconds: number): string {
       <audio controls src={episode.audio_url}>
         Your browser does not support the audio element.
       </audio>
-
-      <!-- Buzzsprout episode descriptions can contain HTML. This will make sure it's rendered as expected. -->
-      <div set:html="{episode.desciption" />
+      <div set:html={episode.description} />
     </main>
   </body>
 </html>
