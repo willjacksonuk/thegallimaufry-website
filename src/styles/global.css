@@ -1,5 +1,6 @@
 /* Import Cabin font */
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
 /* --- Reset --- */
 * {
     margin: 0;
@@ -20,6 +21,7 @@ a {
     --tg-border: #2E2A38;
     --tg-font: 'Lato', sans-serif;
     --max-width: 1024px;
+    --text-max-width: 512px;
 }
 
 html {
@@ -38,7 +40,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.5rem 2rem;
+    padding: 1.5rem 0;
 }
 
 .brand {
@@ -118,17 +120,17 @@ nav {
     font-size: 0.9rem;
     line-height: 1.7;
     color: var(--tg-muted);
-    max-width: 512px;
+    max-width: var(--text-max-width);
     margin-bottom: 1.5rem;
 }
 
-.hero-pills {
+.subscribe-buttons {
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
     flex-wrap: wrap;
 }
 
-a.hero-pill {
+a.subscribe-button {
     font-size: 0.75rem;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
@@ -141,7 +143,7 @@ a.hero-pill {
     text-decoration: none;
 }
 
-.hero-pill:hover {
+.subscribe-button:hover {
     color: var(--tg-text);
     border-color: var(--tg-accent);
     background: color-mix(in srgb, var(--tg-accent) 10%, transparent);
@@ -239,4 +241,93 @@ a.hero-pill {
 
 .see-all-episodes:hover {
     color: var(--tg-accent);
+}
+
+/* --- Episode pages --- */
+.episode-hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
+    max-width: var(--text-max-width);
+}
+
+.episode-hero-time {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--tg-muted);
+    max-width: var(--text-max-width);
+    margin-top: 1rem;
+}
+
+.episode-player-container {
+    padding: 1.5rem 0;
+    margin: 1rem auto;
+}
+
+.episode-player {
+    width: 100%;
+}
+
+.episode-info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    column-gap: 2rem;
+}
+
+.episode-info {
+    width: 50%;
+}
+
+.section-header {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.25rem;
+    text-transform: uppercase;
+    color: var(--tg-accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--tg-border);
+}
+
+.episode-notes {
+    line-height: 1.75;
+    color: var(--tg-muted);
+    margin-bottom: 1.5rem;
+}
+
+.subscribe-section {
+    padding: 2rem 0;
+}
+
+/* --- Footer --- */
+.site-footer {
+    padding: 20px 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--tg-border);
+    margin-top: 2rem;
+}
+
+.site-footer-brand {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tg-muted);
+}
+
+.site-footer-copyright {
+    font-size: 0.75rem;
+    color: var(--tg-muted);
 }
