@@ -1,6 +1,5 @@
 /* Import Cabin font */
-@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 /* --- Reset --- */
 * {
     margin: 0;
@@ -19,7 +18,7 @@ a {
     --tg-text: #EDE7DB;
     --tg-muted: #ADADAD;
     --tg-border: #2E2A38;
-    --tg-font: 'Cabin', sans-serif;
+    --tg-font: 'Lato', sans-serif;
     --max-width: 1024px;
 }
 
@@ -44,7 +43,7 @@ nav {
 
 .brand {
     font-weight: 600;
-    letter-spacing: .2rem;
+    letter-spacing: 0.2rem;
     text-transform: uppercase;
 }
 
@@ -58,6 +57,9 @@ nav {
     color: var(--tg-muted);
     text-decoration: none;
     transition: color .15s;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.1rem;
 }
 
 .nav-item:hover {
@@ -92,15 +94,24 @@ nav {
     letter-spacing: 0.2rem;
     text-transform: uppercase;
     color: var(--tg-accent);
-    margin-bottom: 1rem;
+}
+
+.hero-header {
+    line-height: 1.1;
+    margin: 1rem 0;
+}
+
+.hero-the {
+    font-size: 3rem;
+    font-weight: 300;
+    letter-spacing: 0.5rem;
 }
 
 .hero-title {
-    font-size: 3.5rem;
+    font-size: 3rem;
     font-weight: 700;
     text-transform: uppercase;
-    margin: 0 0 0.5rem 0;
-    letter-spacing: 0.25rem;
+    letter-spacing: 0.5rem;
 }
 
 .hero-description {
