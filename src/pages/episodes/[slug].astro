@@ -21,7 +21,7 @@ const { episode } = Astro.props as { episode: Episode };
 
 <main>
   <Layout
-    title="{episode.title} - The Gallimaufry History Podcast"
+    title=`${episode.title} - The Gallimaufry History Podcast`
     ,
     description="{episode.summary}"
   >
