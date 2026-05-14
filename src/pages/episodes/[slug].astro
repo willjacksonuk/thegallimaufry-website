@@ -19,93 +19,87 @@ export async function getStaticPaths() {
 const { episode } = Astro.props as { episode: Episode };
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{episode.title}</title>
-    <meta name="description" content={episode.summary} />
-  </head>
-  <body>
-    <main>
-      <Layout>
-        <!-- Hero section -->
-        <section>
-          <div class="hero">
-            <div class="container">
-              <p class="hero-eyebrow">
-                Episode {episode.episode_number} - {
-                  formatDate(episode.published_at)
-                }
-              </p>
-              <h1 class="episode-hero-title">{episode.title}</h1>
-              <p class="episode-hero-time">
-                Length: {formatDuration(episode.duration)}
-              </p>
-            </div>
-          </div>
-        </section>
+<main>
+  <Layout
+    title="{episode.title} - The Gallimaufry History Podcast"
+    ,
+    description="{episode.summary}"
+  >
+    <!-- Hero section -->
+    <section>
+      <div class="hero">
+        <div class="container">
+          <p class="hero-eyebrow">
+            Episode {episode.episode_number} - {
+              formatDate(episode.published_at)
+            }
+          </p>
+          <h1 class="episode-hero-title">{episode.title}</h1>
+          <p class="episode-hero-time">
+            Length: {formatDuration(episode.duration)}
+          </p>
+        </div>
+      </div>
+    </section>
 
-        <!-- Audio player -->
-        <section class="episode-player-container container">
-          <audio
-            controls
-            preload="metadata"
-            src={episode.audio_url}
-            class="episode-player"
-          >
-            Your browser does not support audio playback.
-          </audio>
-        </section>
+    <!-- Audio player -->
+    <section class="episode-player-container container">
+      <audio
+        controls
+        preload="metadata"
+        src={episode.audio_url}
+        class="episode-player"
+      >
+        Your browser does not support audio playback.
+      </audio>
+    </section>
 
-        <!--- Episode info -->
-        <section class="container">
-          <div class="episode-info-container">
-            <div class="episode-info">
-              <h2 class="section-header">Episode Notes</h2>
-              <div class="episode-notes" set:html={episode.description} />
+    <!--- Episode info -->
+    <section class="container">
+      <div class="episode-info-container">
+        <div class="episode-info">
+          <h2 class="section-header">Episode Notes</h2>
+          <div class="episode-notes" set:html={episode.description} />
 
-              <!-- Subscribe section -->
-              <section class="container subscribe-section">
-                <h2 class="section-header">Listen on</h2>
-                <div class="subscribe-buttons">
-                  <a
-                    href="https://podcasts.apple.com/podcast/id1541207040"
-                    target="_blank"
-                    class="subscribe-button">Apple Podcasts</a
-                  >
-                  <a
-                    href="https://open.spotify.com/show/4QO6YrQMbF8KtgpGCjmlQZ"
-                    target="_blank"
-                    class="subscribe-button">Spotify</a
-                  >
-                  <a
-                    href="https://music.amazon.com/podcasts/275087d3-2808-4d10-a949-e3c193ea0e92"
-                    target="_blank"
-                    class="subscribe-button">Amazon Music</a
-                  >
-                  <a
-                    href="https://feeds.buzzsprout.com/1460611.rss"
-                    target="_blank"
-                    class="subscribe-button">RSS</a
-                  >
-                </div>
-              </section>
+          <!-- Subscribe section -->
+          <section class="container subscribe-section">
+            <h2 class="section-header">Listen on</h2>
+            <div class="subscribe-buttons">
+              <a
+                href="https://podcasts.apple.com/podcast/id1541207040"
+                target="_blank"
+                class="subscribe-button">Apple Podcasts</a
+              >
+              <a
+                href="https://open.spotify.com/show/4QO6YrQMbF8KtgpGCjmlQZ"
+                target="_blank"
+                class="subscribe-button">Spotify</a
+              >
+              <a
+                href="https://music.amazon.com/podcasts/275087d3-2808-4d10-a949-e3c193ea0e92"
+                target="_blank"
+                class="subscribe-button">Amazon Music</a
+              >
+              <a
+                href="https://feeds.buzzsprout.com/1460611.rss"
+                target="_blank"
+                class="subscribe-button">RSS</a
+              >
             </div>
-            <div class="episode-info">
-              {
-                episode.artwork_url && (
-                  <img
-                    src={episode.artwork_url}
-                    alt={`Artword for ${episode.title}`}
-                    width="100%"
-                  />
-                )
-              }
-            </div>
-          </div>
-        </section>
-      </Layout>
-    </main>
-  </body>
-</html>
+          </section>
+        </div>
+        <div class="episode-info">
+          {
+            episode.artwork_url && (
+              <img
+                src={episode.artwork_url}
+                alt={`Artword for ${episode.title}`}
+                width="100%"
+              />
+            )
+          }
+        </div>
+      </div>
+    </section>
+  </Layout>
+</main>
