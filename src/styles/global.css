@@ -56,6 +56,9 @@ a {
 }
 
 /* --- Header --- */
+header {
+    border-bottom: 1px solid var(--tg-border)
+}
 nav {
     display: flex;
     align-items: center;
@@ -293,7 +296,6 @@ a.subscribe-button {
 
 .episode-hero-time {
     font-size: 0.9rem;
-    line-height: 1.7;
     color: var(--tg-muted);
 }
 
@@ -375,9 +377,6 @@ a.subscribe-button {
     font-size: 1rem;
     line-height: 1.75;
     color: var(--tg-muted);
-    border: 1px solid var(--tg-accent);
-    border-radius: 1rem;
-    padding: 2rem;
 }
 
 .about-text>p {
@@ -392,7 +391,7 @@ a.subscribe-button {
     display: flex;
     flex-wrap: wrap;
     column-gap: 4rem;
-    margin-top: 4rem;
+    margin-top: 2rem;
 }
 
 .about-host {
@@ -400,6 +399,7 @@ a.subscribe-button {
     line-height: 1.75;
     color: var(--tg-muted);
     flex: 1 1 280px;
+    border-radius: 0.5rem;
 }
 
 .about-host>img {
@@ -409,4 +409,36 @@ a.subscribe-button {
     height: auto;
     aspect-ratio: 4 / 3;
     object-fit: cover;
+}
+
+.about-background {
+    background:
+        /* Grain effect */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' opacity='0.3' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
+
+        /* Gold from top right */
+        radial-gradient(circle at 85% 0%, rgba(201, 154, 44, 0.12) 0%, transparent 60%),
+
+        /* Ambient glow from bottom left */
+        radial-gradient(ellipse at 15% 100%, rgba(106, 100, 116, 0.18) 0%, transparent 70%),
+
+        /* Background */
+        var(--tg-background);
+
+    /* Using 'soft-light' keeps the grain elegant against the dark background */
+    background-blend-mode: soft-light, normal, normal;
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.host-container {
+    margin-top: 2rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--tg-muted);
+}
+
+.about-heading {
+    padding: 2rem;
 }
