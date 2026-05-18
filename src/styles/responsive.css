@@ -1,0 +1,17 @@
+/* Small devices (phones) */
+@media (max-width: 576px) {
+    /* TEXT */
+}
+
+/* Medium devices (tablets) */
+@media (max-width: 768px) {
+    /* TEXT */
+
+}
+
+/* Large devices (laptops, desktops) */
+@media (max-width: 1024px) {
+    .hero {
+        padding: 2rem 0;
+    }
+}

@@ -34,10 +34,12 @@ const { episode } = Astro.props as { episode: Episode };
               formatDate(episode.published_at)
             }
           </p>
-          <h1 class="episode-hero-title">{episode.title}</h1>
-          <p class="episode-hero-time">
-            Length: {formatDuration(episode.duration)}
-          </p>
+          <div class="episode-header">
+            <h1 class="episode-hero-title">{episode.title}</h1>
+            <p class="episode-hero-time">
+              Length: {formatDuration(episode.duration)}
+            </p>
+          </div>
         </div>
       </div>
     </section>
