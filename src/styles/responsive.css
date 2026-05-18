@@ -1,12 +1,37 @@
-/* Small devices (phones) */
-@media (max-width: 576px) {
-    /* TEXT */
-}
-
-/* Medium devices (tablets) */
+/* Small devices (phones, tablets) */
 @media (max-width: 768px) {
-    /* TEXT */
 
+    :root {
+        --hero-max-width: 100%;
+    }
+
+    .hero-image {
+        display: none;
+    }
+
+    .hero-inner {
+        display: block;
+    }
+
+    .episode-info-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        row-gap: 2rem;
+    }
+
+    .episode-info {
+        width: 100%;
+    }
+
+    .about-hosts {
+        flex-direction: column;
+        row-gap: 4rem;
+        margin-top: 4rem;
+    }
+    .about-host {
+        width: 100%;
+    }
 }
 
 /* Large devices (laptops, desktops) */

@@ -1,0 +1,81 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import nicImage from "../assets/images/nic.jpeg";
+import willImage from "../assets/images/will.jpeg";
+---
+
+<Layout
+  title="The Gallimaufry History Podcast - About Us"
+  ,
+  description="Two enthusiasts of the past explore the weird, the overlooked, and the occasionally ridiculous. New episodes monthly, crafted in a carpet shop basement."
+>
+  <div class="container">
+    <div class="about-text">
+      <h1>About us</h1>
+      <p>
+        A gallimaufry is a confused jumble of things. Since 2020, it has also
+        been a history podcast.
+
+        <p>
+          Nic has a master's degree in history. Will does not. Neither fact
+          seems to affect the quality of the research much.
+        </p>
+        <p>
+          What the show is, in practice, is an hour or so spent on the parts of
+          the past that didn't quite make it into the curriculum. Not because
+          they're obscure for the sake of it, but because - much like your
+          typical south-west London carpet shop - there's often more to see if
+          you look under the surface. The Dancing Plague of 1518, in which the
+          residents of Strasbourg danced uncontrollably in the street for weeks
+          and several of them died. The Cold War spy network that broadcast
+          coded messages over shortwave radio to nobody in particular, for
+          decades. The woman who, in Victorian Britain, took on the entire legal
+          system and won. The story of how France nearly lost wine. On one
+          occasion, the entire history of fruit.
+        </p>
+        <p>
+          None of this is academic. Nic handles research, planning and
+          presenting. Will provides the questions, which is less helpful than it
+          sounds. The show is recorded in the basement beneath a carpet shop in
+          south-west London. It's the kind of place any sensible person would
+          avoid. Nic and Will have been going back for over five years now.
+        </p>
+        <p>
+          New episodes arrive monthly on Apple Podcasts, Spotify and Amazon
+          Music. On Instagram they are <a
+            href="https://instagram.com/thegallimaufryshow"
+            target="_blank">@thegallimaufryshow</a
+          >.
+        </p>
+      </p>
+    </div>
+
+    <div class="about-hosts">
+      <div id="nic" class="about-host">
+        <h2>Nic</h2>
+        <Image src={nicImage} alt="A lovely photo of Nic on his holidays" />
+        <p>
+          Nic has a master's degree in history, a job making videos for reasons
+          he won't fully explain, and a dog. He lives in south London, owns an
+          Xbox, and has visited Machu Picchu, where he wore a San Diego cap. He
+          is enormously pedantic, which is either a great quality in a history
+          podcaster or an exhausting one, depending on your patience. Probably
+          both.
+        </p>
+      </div>
+      <div id="will" class="about-host">
+        <h2>Will</h2>
+        <Image src={willImage} alt="A photo of Will trying to look clever" />
+        <p>
+          Will builds websites for a much less impressive company which he is
+          nonetheless similarly vague about, lives just outside London, and has
+          no qualifications in history. He got into podcasting in 2020 and has
+          been asking questions of debatable relevance ever since. He is, by his
+          own admission, careening towards a mid-life crisis. The basement was
+          his idea.
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>
