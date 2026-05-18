@@ -1,11 +1,34 @@
-/* Import Cabin font */
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-
-/* --- Reset --- */
-* {
+/* --- Boilerplate --- */
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
+    box-sizing: inherit;
+}
+
+body {
     box-sizing: border-box;
+    font-size: 1.6rem;
+}
+
+/* --- Setup --- */
+:root {
+    --tg-background: #13172A;
+    --tg-accent: #C99A2C;
+    --tg-text: #EDE7DB;
+    --tg-muted: #ADADAD;
+    --tg-border: #2E2A38;
+    --max-width: 1024px;
+    --hero-max-width: calc(var(--max-width) / 2);
+    --hero-font-size: clamp(1.5rem, 4.5vw, 3rem);
+    --hero-line-height: clamp(1.2em, 0.5em + 1.5vw, 1.5em)
+}
+
+html {
+    background: var(--tg-background);
+    color: var(--tg-text);
+    font-family: var(--tg-font-lato);
 }
 
 a {
@@ -13,29 +36,13 @@ a {
     text-decoration: none;
 }
 
-:root {
-    --tg-background: #13172A;
-    --tg-accent: #C99A2C;
-    --tg-text: #EDE7DB;
-    --tg-muted: #ADADAD;
-    --tg-border: #2E2A38;
-    --tg-font: 'Lato', sans-serif;
-    --max-width: 1024px;
-    --text-max-width: 512px;
-}
-
-html {
-    background: var(--tg-background);
-    color: var(--tg-text);
-    font-family: var(--tg-font);
-}
-
 .container {
     max-width: var(--max-width);
     margin: 0 auto;
+    padding: 0 2rem;
 }
 
-/* --- Nav --- */
+/* --- Header --- */
 nav {
     display: flex;
     align-items: center;
@@ -44,7 +51,8 @@ nav {
 }
 
 .nav-logo {
-    font-weight: 500;
+    font-weight: 700;
+    font-size: 1rem;
     letter-spacing: 0.2rem;
     text-transform: uppercase;
 }
@@ -70,7 +78,7 @@ nav {
 
 /* --- Hero --- */
 .hero {
-    padding: 4rem 2rem;
+    padding: 4rem 0;
     border-top: 1px solid var(--tg-border);
     border-bottom: 1px solid var(--tg-border);
     background:
@@ -88,29 +96,47 @@ nav {
 
     /* Using 'soft-light' keeps the grain elegant against the dark background */
     background-blend-mode: soft-light, normal, normal;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-inner {
+    border: solid 1px var(--tg-accent);
+    border-radius: 0.5rem;
+    padding: 2rem;
+}
+
+.hero-outer {
+    padding: 0 2rem;
+    width: 100%;
+    max-width: var(--max-width)
 }
 
 .hero-eyebrow {
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0.2rem;
     text-transform: uppercase;
     color: var(--tg-accent);
 }
 
 .hero-header {
-    line-height: 1.1;
+    font-size: var(--hero-font-size);
+    line-height: var(--hero-line-height);
     margin: 1rem 0;
+    overflow: hidden;
 }
 
 .hero-the {
-    font-size: 3rem;
+    font-size: var(--hero-font-size);
+    line-height: var(--hero-line-height);
     font-weight: 300;
     letter-spacing: 0.5rem;
 }
 
 .hero-title {
-    font-size: 3rem;
+    font-size: var(--hero-font-size);
+    line-height: var(--hero-line-height);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5rem;
@@ -120,7 +146,7 @@ nav {
     font-size: 0.9rem;
     line-height: 1.7;
     color: var(--tg-muted);
-    max-width: var(--text-max-width);
+    max-width: var(--hero-max-width);
     margin-bottom: 1.5rem;
 }
 
@@ -152,24 +178,25 @@ a.subscribe-button {
 /* --- Episode list --- */
 .episode-list {
     border-top: 1px solid var(--bo);
-    padding: 2rem;
+    padding: 2rem 0
 }
 
-.episode-header {
+.episode-list-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
+    overflow: hidden;
 }
 
-.episode-header-title {
+.episode-list-header-title {
     font-size: 0.75rem;
     letter-spacing: .2em;
     text-transform: uppercase;
     color: var(--tg-accent);
 }
 
-.episode-header-count {
+.episode-list-header-count {
     font-size: 0.75rem;
     color: var(--tg-muted);
 }
@@ -198,14 +225,14 @@ a.subscribe-button {
 
 .episode-number {
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 400;
     min-width: 2rem;
     color: var(--tg-accent)
 }
 
 .episode-title {
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 400;
     flex: 1;
 }
 
@@ -230,12 +257,17 @@ a.subscribe-button {
 }
 
 /* --- Episode pages --- */
+
+.episode-header {
+    overflow: hidden;
+}
+
 .episode-hero-title {
-    font-size: 3rem;
+    font-size: var(--hero-font-size);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5rem;
-    max-width: var(--text-max-width);
+    max-width: var(--hero-max-width);
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
@@ -244,7 +276,7 @@ a.subscribe-button {
     font-size: 0.9rem;
     line-height: 1.7;
     color: var(--tg-muted);
-    max-width: var(--text-max-width);
+    max-width: var(--hero-max-width);
 }
 
 .episode-player-container {
@@ -269,7 +301,7 @@ a.subscribe-button {
 
 .section-header {
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0.25rem;
     text-transform: uppercase;
     color: var(--tg-accent);
@@ -298,7 +330,8 @@ a.subscribe-button {
 
 /* --- Footer --- */
 .site-footer {
-    padding: 20px 0 32px;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -308,7 +341,7 @@ a.subscribe-button {
 
 .site-footer-brand {
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--tg-muted);
@@ -317,10 +350,4 @@ a.subscribe-button {
 .site-footer-copyright {
     font-size: 0.75rem;
     color: var(--tg-muted);
-}
-
-.hero>.container {
-    border:solid 1px var(--tg-accent);
-    border-radius: 0.5rem;
-    padding: 2.5rem;
 }
