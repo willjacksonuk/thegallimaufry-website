@@ -1,0 +1,26 @@
+---
+import { formatDuration } from "../lib/buzzsprout";
+import { formatDate } from "../lib/buzzsprout";
+import type { Episode } from "../types/episode";
+const { episode } = Astro.props as { episode: Episode };
+---
+
+<section>
+  <div class="hero">
+    <div class="hero-outer fade-up-text">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <p class="hero-eyebrow">
+            Episode {episode.episode_number} - {
+              formatDate(episode.published_at)
+            }
+          </p>
+          <h1 class="episode-hero-title">{episode.title}</h1>
+          <p class="episode-hero-time">
+            Length: {formatDuration(episode.duration)}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

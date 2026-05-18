@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
 
 import { getEpisodes } from "../lib/buzzsprout";
 import convert from "url-slug";
@@ -15,46 +16,7 @@ const episodes = await getEpisodes();
   description="Two enthusiasts of the past explore the weird, the overlooked, and the occasionally ridiculous. New episodes monthly, crafted in a carpet shop basement."
 >
   <!-- Hero section -->
-  <section>
-    <div class="hero">
-      <div class="hero-outer">
-        <div class="hero-inner">
-          <p class="hero-eyebrow">A hodgepodge history podcast - Est. 2020</p>
-          <h1 class="hero-header">
-            <span class="hero-the">the</span><br />
-            <span class="hero-title">Gallimaufry</span>
-          </h1>
-          <p class="hero-description">
-            Two lovers of the past pontificate on the weird, the wonderful, and
-            the often overlooked. Crafted in a carpet shop basement. New
-            episodes every month.
-          </p>
-          <div class="subscribe-buttons">
-            <a
-              href="https://podcasts.apple.com/podcast/id1541207040"
-              target="_blank"
-              class="subscribe-button">Apple Podcasts</a
-            >
-            <a
-              href="https://open.spotify.com/show/4QO6YrQMbF8KtgpGCjmlQZ"
-              target="_blank"
-              class="subscribe-button">Spotify</a
-            >
-            <a
-              href="https://music.amazon.com/podcasts/275087d3-2808-4d10-a949-e3c193ea0e92"
-              target="_blank"
-              class="subscribe-button">Amazon Music</a
-            >
-            <a
-              href="https://feeds.buzzsprout.com/1460611.rss"
-              target="_blank"
-              class="subscribe-button">RSS</a
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <Hero />
 
   <!-- Episode listing -->
   <section class="container">
