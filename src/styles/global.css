@@ -43,8 +43,8 @@ nav {
     padding: 1.5rem 0;
 }
 
-.brand {
-    font-weight: 600;
+.nav-logo {
+    font-weight: 500;
     letter-spacing: 0.2rem;
     text-transform: uppercase;
 }
@@ -198,7 +198,7 @@ a.subscribe-button {
 
 .episode-number {
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 500;
     min-width: 2rem;
     color: var(--tg-accent)
 }
