@@ -1,0 +1,15 @@
+---
+import type { Episode } from "../types/episode";
+const { episode } = Astro.props as { episode: Episode };
+---
+
+<section class="episode-player-container container">
+  <audio
+    controls
+    preload="metadata"
+    src={episode.audio_url}
+    class="episode-player"
+  >
+    Your browser does not support audio playback.
+  </audio>
+</section>

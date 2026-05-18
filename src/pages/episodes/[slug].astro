@@ -1,9 +1,9 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getEpisode, getEpisodes } from "../../lib/buzzsprout";
+import EpisodeHero from "../../components/EpisodeHero.astro";
+import EpisodePlayer from "../../components/EpisodePlayer.astro"
 import type { Episode } from "../../types/episode";
-import { formatDuration } from "../../lib/buzzsprout";
-import { formatDate } from "../../lib/buzzsprout";
+import { getEpisode, getEpisodes } from "../../lib/buzzsprout";
 
 import convert from "url-slug";
 
@@ -25,36 +25,12 @@ const { episode } = Astro.props as { episode: Episode };
     ,
     description="{episode.summary}"
   >
+  
     <!-- Hero section -->
-    <section>
-      <div class="hero">
-        <div class="container">
-          <p class="hero-eyebrow">
-            Episode {episode.episode_number} - {
-              formatDate(episode.published_at)
-            }
-          </p>
-          <div class="episode-header">
-            <h1 class="episode-hero-title">{episode.title}</h1>
-            <p class="episode-hero-time">
-              Length: {formatDuration(episode.duration)}
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <EpisodeHero episode={episode} />
 
     <!-- Audio player -->
-    <section class="episode-player-container container">
-      <audio
-        controls
-        preload="metadata"
-        src={episode.audio_url}
-        class="episode-player"
-      >
-        Your browser does not support audio playback.
-      </audio>
-    </section>
+    <EpisodePlayer episode="{episode"} />
 
     <!--- Episode info -->
     <section class="container">
