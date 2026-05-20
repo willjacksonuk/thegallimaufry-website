@@ -11,7 +11,7 @@ const episodes = await getEpisodes();
 ---
 
 <Layout
-  title="The Gallimaufry History Podcast"
+  title="The Gallimaufry History Podcast - Weird & Overlooked History"
   ,
   description="Two enthusiasts of the past explore the weird, the overlooked, and the occasionally ridiculous. New episodes monthly, crafted in a carpet shop basement."
 >
@@ -22,7 +22,7 @@ const episodes = await getEpisodes();
   <section class="container">
     <div class="episode-list">
       <div class="episode-list-header">
-        <span class="episode-list-header-title">Episodes</span>
+        <h2 class="episode-list-header-title">Episodes</h2>
         <span class="episode-list-header-count"
           >{Object.keys(episodes).length} total</span
         >
@@ -33,11 +33,14 @@ const episodes = await getEpisodes();
           <div class="episode-row">
             <span class="episode-number">{episode.episode_number}</span>
             <span class="episode-title">
-              <a
-                href={`/episodes/${convert(episode.title, { dictionary: { Æ: "A" } })}`}
-              >
-                <p>{episode.title}</p>
-              </a>
+              <h3>
+                {" "}
+                <a
+                  href={`/episodes/${convert(episode.title, { dictionary: { Æ: "A" } })}`}
+                >
+                  {episode.title}
+                </a>
+              </h3>
             </span>
             <div class="episode-data">
               <span class="episode-date">
