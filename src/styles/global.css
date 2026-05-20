@@ -387,6 +387,10 @@ a.subscribe-button {
     text-decoration: underline;
 }
 
+.about-text>h2 {
+    color: var(--tg-text);
+}
+
 .about-hosts {
     display: flex;
     flex-wrap: wrap;

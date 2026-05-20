@@ -17,6 +17,14 @@
         padding: 2rem 2rem;
     }
 
+    .about-hosts {
+        margin-top: 0;
+    }
+
+    .about-host {
+        margin-top: 2rem;
+    }
+
 }
 
 /* Large devices (laptops, desktops) */
