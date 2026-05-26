@@ -1,0 +1,12 @@
+---
+/* Source: https://daniel.es/blog/the-ultimate-astro-google-analytics-guide */
+
+import 'vanilla-cookieconsent/dist/cookieconsent.css';
+---
+
+<script>
+  import { run } from 'vanilla-cookieconsent';
+  import { config } from './CookieConsentConfig';
+
+  run(config);
+</script>

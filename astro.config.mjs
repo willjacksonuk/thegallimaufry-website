@@ -3,8 +3,6 @@ import { defineConfig, fontProviders } from "astro/config";
 
 import sitemap from "@astrojs/sitemap";
 
-import partytown from "@astrojs/partytown";
-
 // https://astro.build/config
 export default defineConfig({
   site: "https://thegallimaufry.show",
@@ -24,5 +22,5 @@ export default defineConfig({
     },
   ],
 
-  integrations: [sitemap(), partytown()],
+  integrations: [sitemap()],
 });
