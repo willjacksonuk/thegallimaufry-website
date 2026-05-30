@@ -5,25 +5,24 @@ import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
 import cloudflare from "@astrojs/cloudflare";
 
-// https://astro.build/config
 export default defineConfig({
   site: "https://thegallimaufry.show",
 
-  fonts: [
-    {
-      provider: fontProviders.local(),
-      name: "Lato",
-      cssVariable: "--tg-font-lato",
-      fallbacks: ["sans-serif"],
-      options: {
+  experimental: {
+    fonts: [
+      {
+        provider: fontProviders.local(),
+        name: "Lato",
+        cssVariable: "--tg-font-lato",
+        fallbacks: ["sans-serif"],
         variants: [
           { weight: "300", src: ["./src/assets/fonts/Lato-Light.woff2"] },
           { weight: "400", src: ["./src/assets/fonts/Lato-Regular.woff2"] },
           { weight: "700", src: ["./src/assets/fonts/Lato-Bold.woff2"] },
         ],
       },
-    },
-  ],
+    ],
+  },
 
   integrations: [sitemap(), robotsTxt()],
 
