@@ -3,7 +3,7 @@ import { defineConfig, fontProviders, envField } from "astro/config";
 
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from 'astro-robots-txt';
-import node from '@astrojs/node';
+import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,12 +24,8 @@ export default defineConfig({
     },
   ],
 
-  integrations:
-    [sitemap(),
-    robotsTxt()],
-  adapter: node({
-    mode: 'standalone',
-  }),
+  integrations: [sitemap(), robotsTxt()],
+  adapter: cloudflare(),
   env: {
     schema: {
       RESEND_API_KEY: envField.string({
