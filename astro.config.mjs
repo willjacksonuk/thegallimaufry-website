@@ -58,6 +58,14 @@ export default defineConfig({
         context: "server",
         access: "secret",
       }),
+      BUZZSPROUT_API_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      BUZZSPROUT_PODCAST_ID: envField.string({
+        context: "server",
+        access: "secret",
+      }),
     },
   },
 });
