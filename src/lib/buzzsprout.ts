@@ -44,7 +44,7 @@ export async function getEpisode(id: number): Promise<Episode> {
 }
 
 /* Take the duration in seconds and convert it into easily readable minutes and seconds */
-export function formatDuration(seconds: number): string {
+export function durationToReadable(seconds: number): string {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
 
@@ -54,8 +54,16 @@ export function formatDuration(seconds: number): string {
   return `${minutes} mins`;
 }
 
+export function durationToIso(seconds: number): string {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor(seconds % 3600 / 60);
+  const s = Math.floor(seconds % 60);
+  return `PT${h > 0 ? `${h}H` : "" }${m}M${s}S`;
+}
+
+
 /* Format the date */
-export function formatDate(publishDate: string): string {
+export function dateToReadable(publishDate: string): string {
   const formattedDate = new Date(publishDate).toLocaleDateString("en-GB", {
     day: "numeric",
     month: "long",
