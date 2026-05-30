@@ -1,15 +1,24 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import { Font } from "astro:assets";
+import { SEO } from "astro-seo";
 
 import "../styles/global.css";
 import "../styles/responsive.css";
-
 import CookieConsent from "../components/CookieConsent.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+}
 
 const {
   title = "The Gallimaufry History Podcast",
   description = "Two enthusiasts of the past explore the weird, the overlooked, and the occasionally ridiculous. New episodes monthly, crafted in a carpet shop basement.",
+  image = "https://thegallimaufry.show/og-default.jpg",
+  imageAlt = "The Gallimaufry History Podcast",
 } = Astro.props;
 ---
 
@@ -24,10 +33,39 @@ const {
     />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
-    <title>{title}</title>
     <Font cssVariable="--tg-font-lato" />
     <ClientRouter />
+
+    <SEO
+      title={title}
+      titleTemplate="%s | The Gallimaufry"
+      titleDefault="The Gallimaufry History Podcast"
+      description={description}
+      canonical={Astro.url.href}
+      openGraph={{
+        basic: {
+          title: title,
+          type: "website",
+          image: image,
+          url: Astro.url.href,
+        },
+        optional: {
+          description: description,
+          siteName: "The Gallimaufry",
+          locale: "en_GB",
+        },
+        image: {
+          alt: imageAlt,
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        title: title,
+        description: description,
+        image: image,
+        imageAlt: imageAlt,
+      }}
+    />
 
     <!-- GA4 -->
     <script
@@ -35,7 +73,9 @@ const {
       src="https://www.googletagmanager.com/gtag/js?id=G-MR1597S2J4"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      window.gtag = function gtag() { window.dataLayer.push(arguments); };
+      window.gtag = function gtag() {
+        window.dataLayer.push(arguments);
+      };
       window.gtag("js", new Date());
       window.gtag("consent", "default", {
         ad_storage: "denied",
@@ -50,6 +90,7 @@ const {
       });
     </script>
 
+    <slot name="head" />
   </head>
   <body>
     <!-- Header -->
