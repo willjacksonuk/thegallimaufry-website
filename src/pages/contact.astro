@@ -1,0 +1,74 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+    title="The Gallimaufry History Podcast - Contact Us"
+    ,
+    description="Two enthusiasts of the past explore the weird, the overlooked, and the occasionally ridiculous. New episodes monthly, crafted in a carpet shop basement."
+>
+    <!-- Set up the contact form -->
+    <script>
+        import { actions } from "astro:actions";
+
+        const form = document.getElementById("contact-form");
+        const successMessage = document.getElementById("success-message");
+
+        const handleSubmit = async (event: Event) => {
+            event.preventDefault();
+            const form = event.target as HTMLFormElement;
+            const sendFormData = new FormData(form);
+            const result = await actions.sendMail(sendFormData);
+            if (result.data?.success) {
+                form.reset();
+                form.style.display = "none";
+                if (successMessage) successMessage.style.display = "block";
+            }
+        };
+
+        if (form) {
+            form.addEventListener("submit", handleSubmit);
+        }
+    </script>
+
+    <div class="container page-heading">
+        <h1>Contact us</h1>
+    </div>
+
+    <!-- Contact form -->
+    <section>
+        <div class="about-background">
+            <div class="container">
+                <div class="container">
+                    <p id="success-message" style="display: none;">
+                        Thanks for getting in touch. We'll get back to you soon.
+                    </p>
+                    <form id="contact-form" method="POST" class="grid gap-4">
+                        <input
+                            name="name"
+                            type="text"
+                            placeholder="Name"
+                            required
+                        />
+                        <input
+                            type="text"
+                            name="honeypot"
+                            style="display: none;"
+                            tabindex="-1"
+                            autocomplete="off"
+                        />
+                        <input
+                            name="email"
+                            type="email"
+                            placeholder="Email"
+                            required
+                        />
+                        <textarea name="message" placeholder="Message"
+                        ></textarea>
+                        <button type="submit"> Send </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</Layout>
