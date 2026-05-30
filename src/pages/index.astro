@@ -4,8 +4,8 @@ import Hero from "../components/Hero.astro";
 
 import { getEpisodes } from "../lib/buzzsprout";
 import convert from "url-slug";
-import { formatDuration } from "../lib/buzzsprout";
-import { formatDate } from "../lib/buzzsprout";
+import { durationToReadable } from "../lib/buzzsprout";
+import { dateToReadable } from "../lib/buzzsprout";
 
 const episodes = await getEpisodes();
 ---
@@ -44,10 +44,10 @@ const episodes = await getEpisodes();
             </span>
             <div class="episode-data">
               <span class="episode-date">
-                {formatDate(episode.published_at)}
+                {dateToReadable(episode.published_at)}
               </span>
               <span class="episode-length">
-                {formatDuration(episode.duration)}
+                {durationToReadable(episode.duration)}
               </span>
             </div>
           </div>

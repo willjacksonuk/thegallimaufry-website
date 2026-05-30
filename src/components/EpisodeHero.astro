@@ -1,6 +1,6 @@
 ---
-import { formatDuration } from "../lib/buzzsprout";
-import { formatDate } from "../lib/buzzsprout";
+import { durationToReadable } from "../lib/buzzsprout";
+import { dateToReadable } from "../lib/buzzsprout";
 import type { Episode } from "../types/episode";
 const { episode } = Astro.props as { episode: Episode };
 ---
@@ -12,12 +12,12 @@ const { episode } = Astro.props as { episode: Episode };
         <div class="hero-content">
           <p class="hero-eyebrow">
             Episode {episode.episode_number} - {
-              formatDate(episode.published_at)
+              dateToReadable(episode.published_at)
             }
           </p>
           <h1 class="episode-hero-title">{episode.title}</h1>
           <p class="episode-hero-time">
-            Length: {formatDuration(episode.duration)}
+            Length: {durationToReadable(episode.duration)}
           </p>
         </div>
       </div>
