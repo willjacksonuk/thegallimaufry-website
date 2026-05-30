@@ -2,12 +2,13 @@
 import { defineConfig, fontProviders, envField } from "astro/config";
 
 import sitemap from "@astrojs/sitemap";
-import robotsTxt from 'astro-robots-txt';
-import cloudflare from '@astrojs/cloudflare';
+import robotsTxt from "astro-robots-txt";
+import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://thegallimaufry.show",
+
   fonts: [
     {
       provider: fontProviders.local(),
@@ -25,20 +26,24 @@ export default defineConfig({
   ],
 
   integrations: [sitemap(), robotsTxt()],
-  adapter: cloudflare(),
+
+  adapter: cloudflare({
+    imageService: "compile",
+  }),
+
   env: {
     schema: {
       RESEND_API_KEY: envField.string({
-        context: 'server',
-        access: 'secret',
+        context: "server",
+        access: "secret",
       }),
       FROM_EMAIL: envField.string({
-        context: 'server',
-        access: 'secret',
+        context: "server",
+        access: "secret",
       }),
       TO_EMAIL: envField.string({
-        context: 'server',
-        access: 'secret',
+        context: "server",
+        access: "secret",
       }),
     },
   },
