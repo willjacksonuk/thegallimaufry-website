@@ -25,8 +25,5 @@ export default defineConfig({
 
   integrations:
     [sitemap(),
-    [robotsTxt({
-      policy: [{ userAgent: '*', allow: '/' }],
-      sitemap: 'https://thegallimaufry.show/sitemap-index.xml'
-    })]]
+    robotsTxt()]
 });
