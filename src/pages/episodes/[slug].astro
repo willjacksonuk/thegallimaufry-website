@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import EpisodeHero from "../../components/EpisodeHero.astro";
 import EpisodePlayer from "../../components/EpisodePlayer.astro";
 import type { Episode } from "../../types/episode";
-import { getEpisodes } from "../../lib/buzzsprout";
+import { durationToIso, getEpisodes } from "../../lib/buzzsprout";
 
 import convert from "url-slug";
 
@@ -17,13 +17,59 @@ export async function getStaticPaths() {
 }
 
 const { episode } = Astro.props as { episode: Episode };
+
+const plainDescription = episode.description
+  ? episode.description
+      .replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .trim()
+      .slice(0, 155)
+  : undefined;
+
+const episodeSlug = convert(episode.title, { dictionary: { Æ: "A" } });
+const episodeUrl = `https://thegallimaufry.show/episodes/${episodeSlug}`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "PodcastEpisode",
+  url: episodeUrl,
+  name: episode.title,
+  description: plainDescription,
+  datePublished: episode.published_at,
+  duration: durationToIso(episode.duration),
+  associatedMedia: {
+    "@type": "MediaObject",
+    contentUrl: episode.audio_url,
+    encodingFormat: "audio/mpeg",
+  },
+  partOfSeries: {
+    "@type": "PodcastSeries",
+    name: "The Gallimaufry",
+    url: "https://thegallimaufry.show",
+  },
+  ...(episode.episode_number && { episodeNumber: episode.episode_number }),
+  ...(episode.season_number && { seasonNumber: episode.season_number }),
+  ...(episode.artwork_url && { image: episode.artwork_url }),
+};
+
 ---
 
 <Layout
-  title=`${episode.title} - The Gallimaufry History Podcast`
-  ,
-  description="{episode.summary}"
+  title={episode.title}
+  description={plainDescription}
+  image={episode.artwork_url || undefined}
+  imageAlt={`Artwork for ${episode.title}`}
 >
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(jsonLd)}
+  />
+
   <!-- Hero section -->
   <EpisodeHero episode={episode} />
 

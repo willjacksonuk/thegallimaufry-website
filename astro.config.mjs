@@ -2,6 +2,7 @@
 import { defineConfig, fontProviders } from "astro/config";
 
 import sitemap from "@astrojs/sitemap";
+import robotsTxt from 'astro-robots-txt';
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,7 +12,7 @@ export default defineConfig({
       provider: fontProviders.local(),
       name: "Lato",
       cssVariable: "--tg-font-lato",
-      fallbacks: ["sans-serf"],
+      fallbacks: ["sans-serif"],
       options: {
         variants: [
           { weight: "300", src: ["./src/assets/fonts/Lato-Light.woff2"] },
@@ -22,5 +23,10 @@ export default defineConfig({
     },
   ],
 
-  integrations: [sitemap()],
+  integrations:
+    [sitemap(),
+    [robotsTxt({
+      policy: [{ userAgent: '*', allow: '/' }],
+      sitemap: 'https://thegallimaufry.show/sitemap-index.xml'
+    })]]
 });
