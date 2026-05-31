@@ -52,11 +52,11 @@ export default defineConfig({
       }),
       FROM_EMAIL: envField.string({
         context: "server",
-        access: "secret",
+        access: "public",
       }),
       TO_EMAIL: envField.string({
         context: "server",
-        access: "secret",
+        access: "public",
       }),
       BUZZSPROUT_API_TOKEN: envField.string({
         context: "server",
@@ -64,7 +64,7 @@ export default defineConfig({
       }),
       BUZZSPROUT_PODCAST_ID: envField.string({
         context: "server",
-        access: "secret",
+        access: "public",
       }),
     },
   },
