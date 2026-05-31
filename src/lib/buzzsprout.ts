@@ -1,15 +1,14 @@
 import type { Episode } from "../types/episode";
-import {
-  BUZZSPROUT_API_TOKEN,
-  BUZZSPROUT_PODCAST_ID,
-} from "astro:env/server";
+
+const PODCAST_ID = import.meta.env.BUZZSPROUT_PODCAST_ID;
+const API_TOKEN = import.meta.env.BUZZSPROUT_API_TOKEN;
 
 export async function getEpisodes(): Promise<Episode[]> {
   const response = await fetch(
-    `https://www.buzzsprout.com/api/${BUZZSPROUT_PODCAST_ID}/episodes.json`,
+    `https://www.buzzsprout.com/api/${PODCAST_ID}/episodes.json`,
     {
       headers: {
-        Authorization: `Token token=${BUZZSPROUT_API_TOKEN}`,
+        Authorization: `Token token=${API_TOKEN}`,
       },
     },
   );
@@ -28,10 +27,10 @@ export async function getEpisodes(): Promise<Episode[]> {
 
 export async function getEpisode(id: number): Promise<Episode> {
   const response = await fetch(
-    `https://www.buzzsprout.com/api/${BUZZSPROUT_PODCAST_ID}/episodes/${id}.json`,
+    `https://www.buzzsprout.com/api/${PODCAST_ID}/episodes/${id}.json`,
     {
       headers: {
-        Authorization: `Token token=${BUZZSPROUT_API_TOKEN}`,
+        Authorization: `Token token=${API_TOKEN}`,
       },
     },
   );
