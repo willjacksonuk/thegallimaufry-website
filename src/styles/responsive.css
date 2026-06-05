@@ -13,6 +13,53 @@
         display: block;
     }
 
+    .nav-toggle {
+        display: inline-flex;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid var(--tg-text);
+        color: var(--tg-muted);
+        background: transparent;
+        cursor: pointer;
+        transition: all .15s;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 0.1rem;
+    }
+
+    .nav-toggle:hover {
+        color: var(--tg-text);
+        border-color: var(--tg-accent);
+        background: color-mix(in srgb, var(--tg-accent) 10%, transparent);
+    }
+
+    .site-nav {
+        display: none;
+        position: absolute;
+        width: min(14rem, calc(100vw - 2rem));
+        top: 100%;
+        right: 0;
+        flex-direction: column;
+        align-items: end;
+        gap: 0;
+        padding: 1rem;
+        background: var(--tg-background);
+        border-top: 2px solid var(--tg-border);
+        z-index: 10;
+    }
+
+    .site-nav.is-open {
+        display: flex;
+    }
+
+    .site-nav a {
+        display: block;
+        padding: 0.5rem 1rem;
+        width: 100%;
+        text-align: right;
+    }
+
     .site-footer {
         flex-direction: column;
         align-items: start;

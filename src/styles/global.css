@@ -60,11 +60,16 @@ header {
     border-bottom: 1px solid var(--tg-border)
 }
 
-nav {
+.nav-toggle {
+    display: none
+}
+
+.site-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 1.5rem 0;
+    position: relative;
 }
 
 .nav-logo {
@@ -76,7 +81,7 @@ nav {
 
 }
 
-.nav-items {
+.site-nav {
     display: flex;
     align-items: center;
     gap: 1.5rem;

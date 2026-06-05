@@ -89,23 +89,47 @@ const {
       });
     </script>
 
+    <!-- Responsive nav -->
+    <script is:inline>
+      function setupMobileNav() {
+        const navToggle = document.querySelector(".nav-toggle");
+        const siteNav = document.querySelector("#site-nav");
+
+        if (!navToggle || !siteNav) return;
+
+        navToggle.addEventListener("click", () => {
+          const isOpen = siteNav.classList.toggle("is-open");
+          navToggle.setAttribute("aria-expanded", String(isOpen));
+        });
+      }
+
+      document.addEventListener("astro:page-load", setupMobileNav);
+      setupMobileNav();
+    </script>
+
     <slot name="head" />
   </head>
   <body>
     <!-- Header -->
     <header>
       <div class="container">
-        <nav>
+        <div class="site-header">
           <span class="nav-logo">
             <a href="/">The Gallimaufry</a>
           </span>
-          <div class="nav-items">
+          <button
+            class="nav-toggle"
+            aria-expanded="false"
+            aria-controls="site-nav">Menu</button
+          >
+          <nav id="site-nav" class="site-nav" aria-label="Main navigation">
             <a class="nav-item" href="/about">About</a>
             <a class="nav-item" href="/contact">Contact</a>
-          </div>
-        </nav>
+          </nav>
+        </div>
       </div>
     </header>
+    
     <!-- Main content  -->
     <main>
       <slot />
