@@ -31,42 +31,51 @@ import Layout from "../layouts/Layout.astro";
         }
     </script>
 
-    <div class="container page-heading">
-        <h1>Contact us</h1>
-    </div>
-
     <!-- Contact form -->
     <section>
         <div class="about-background">
             <div class="container">
-                <div class="container">
-                    <p id="success-message" style="display: none;">
-                        Thanks for getting in touch. We'll get back to you soon.
-                    </p>
-                    <form id="contact-form" method="POST" class="grid gap-4">
-                        <input
-                            name="name"
-                            type="text"
-                            placeholder="Name"
-                            required
-                        />
-                        <input
-                            type="text"
-                            name="honeypot"
-                            style="display: none;"
-                            tabindex="-1"
-                            autocomplete="off"
-                        />
-                        <input
-                            name="email"
-                            type="email"
-                            placeholder="Email"
-                            required
-                        />
-                        <textarea name="message" placeholder="Message"
-                        ></textarea>
-                        <button type="submit"> Send </button>
-                    </form>
+                <div class="contact-container">
+                    <div id="contact-text-container">
+                        <div class="page-heading">
+                            <h1>Contact us</h1>
+                        </div>
+                        <p>Got a question, correction, curious historical rabbit hole, or half-remembered tale you think we should look into? Send us a message - we’d love to hear from you.</p>
+                    </div>
+                    <div id="contact-form-container">
+                        <p id="success-message" style="display: none;">
+                            Thanks for getting in touch. We'll get back to you
+                            soon.
+                        </p>
+                        <form
+                            id="contact-form"
+                            method="POST"
+                            class="grid gap-4"
+                        >
+                            <input
+                                name="name"
+                                type="text"
+                                placeholder="Name"
+                                required
+                            />
+                            <input
+                                type="text"
+                                name="honeypot"
+                                style="display: none;"
+                                tabindex="-1"
+                                autocomplete="off"
+                            />
+                            <input
+                                name="email"
+                                type="email"
+                                placeholder="Email"
+                                required
+                            />
+                            <textarea name="message" placeholder="Message"
+                            ></textarea>
+                            <button type="submit"> Send </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

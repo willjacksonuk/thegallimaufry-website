@@ -72,6 +72,8 @@ nav {
     font-size: 1rem;
     letter-spacing: 0.2rem;
     text-transform: uppercase;
+    white-space: nowrap;
+
 }
 
 .nav-items {
@@ -240,7 +242,7 @@ a.subscribe-button {
 }
 
 .episode-row:last-child {
-    border-bottom: none
+    border-bottom: none;
 }
 
 .episode-row:hover {
@@ -264,7 +266,8 @@ a.subscribe-button {
     display: flex;
     gap: 1.5rem;
     align-items: center;
-    flex-shrink: 0
+    flex-shrink: 0;
+    margin-left: auto;
 }
 
 .episode-date {
@@ -365,6 +368,7 @@ a.subscribe-button {
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--tg-muted);
+    white-space: nowrap;
 }
 
 .site-footer-copyright {
@@ -445,13 +449,29 @@ a.subscribe-button {
 }
 
 .page-heading {
-    padding: 2rem;
+    padding-bottom: 2rem;
 }
 
 /* --- Contact page --- */
 
 .about-background>.container {
     width: 100%;
+}
+
+.contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 4rem;
+}
+
+.contact-container>div {
+    flex: 1 1 280px;
+}
+
+.contact-container>div>p {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--tg-muted);
 }
 
 form {
