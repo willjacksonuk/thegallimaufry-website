@@ -24,3 +24,6 @@ pnpm-debug.log*
 
 # Cloudflare
 .wrangler/
+
+# VS Code
+.vscode/
