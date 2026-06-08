@@ -8,6 +8,7 @@ Website for [The Gallimaufry](https://thegallimaufry.show) – a history podcast
 - [TypeScript](https://www.typescriptlang.org): type-safe JavaScript
 - [Cloudflare Pages](https://pages.cloudflare.com): hosting and deployment
 - [Buzzsprout API](https://www.buzzsprout.com/api): episode data retrieved at build time
+- [Resend](https://resend.com): transactional email
 - [vanilla-cookieconsent](https://cookieconsent.orestbida.com): cookie consent management
 - [url-slug](https://www.npmjs.com/package/url-slug): URL-friendly slugs from episode titles
 
@@ -16,7 +17,7 @@ Website for [The Gallimaufry](https://thegallimaufry.show) – a history podcast
 ## Getting Started
 
 ### Prerequisites
-- Node.js 18 or above
+- Node.js 22 or above
 - A Buzzsprout account with an API token
 
 ### Installation
