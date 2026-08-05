@@ -8,6 +8,15 @@ import node from "@astrojs/node";
 export default defineConfig({
   site: "https://thegallimaufry.show",
 
+  security: {
+    allowedDomains: [
+      {
+        hostname: "thegallimaufry.show",
+        protocol: "https",
+      },
+    ],
+  },
+
   fonts: [
     {
       provider: fontProviders.local(),
