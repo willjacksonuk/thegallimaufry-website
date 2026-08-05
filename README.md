@@ -6,7 +6,7 @@ Website for [The Gallimaufry](https://thegallimaufry.show) – a history podcast
 ## Tech Stack
 - [Astro](https://astro.build): static site generator
 - [TypeScript](https://www.typescriptlang.org): type-safe JavaScript
-- [Cloudflare Pages](https://pages.cloudflare.com): hosting and deployment
+- [Dokploy](https://dokploy.com): self-hosted deployment
 - [Buzzsprout API](https://www.buzzsprout.com/api): episode data retrieved at build time
 - [Resend](https://resend.com): transactional email
 - [vanilla-cookieconsent](https://cookieconsent.orestbida.com): cookie consent management
@@ -45,6 +45,35 @@ Open `http://localhost:4321`.
 npm run build
 npm run preview
 ```
+
+## Deploying with Dokploy
+
+Create a Dokploy **Application** from this repository and use these settings:
+
+- Build type: `Dockerfile`
+- Dockerfile path: `Dockerfile`
+- Docker context path: `.`
+- Container port: `4321`
+
+Add these as both application environment variables and build-time values:
+
+| Variable | Build setting | Purpose |
+| --- | --- | --- |
+| `BUZZSPROUT_API_TOKEN` | Secret | Fetch episodes without putting the token in the image |
+| `RESEND_API_KEY` | Secret | Build validation and contact-form email at runtime |
+| `BUZZSPROUT_PODCAST_ID` | Argument | Podcast to fetch during the build |
+| `FROM_EMAIL` | Argument | Verified Resend sender address |
+| `TO_EMAIL` | Argument | Contact-form recipient |
+
+In Dokploy, enter the two secrets under **Build-time Secrets** and the other
+three under **Build-time Arguments**. Also enter all five in the application's
+normal Environment tab so they are present when the server starts.
+
+Add `thegallimaufry.show` in the application's Domains tab, route `/` to
+container port `4321`, and enable HTTPS. Test the Dokploy-generated preview
+domain before changing DNS. When ready, change the domain's DNS record to the
+Dokploy server and remove the old Cloudflare Pages/Workers project only after
+the site and contact form have been verified.
 
 ---
 

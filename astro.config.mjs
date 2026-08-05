@@ -3,7 +3,7 @@ import { defineConfig, fontProviders, envField } from "astro/config";
 
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
-import cloudflare from "@astrojs/cloudflare";
+import node from "@astrojs/node";
 
 export default defineConfig({
   site: "https://thegallimaufry.show",
@@ -40,9 +40,7 @@ export default defineConfig({
 
   integrations: [sitemap(), robotsTxt()],
 
-  adapter: cloudflare({
-    imageService: "compile",
-  }),
+  adapter: node({ mode: "standalone" }),
 
   env: {
     schema: {
