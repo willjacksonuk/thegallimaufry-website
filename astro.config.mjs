@@ -8,35 +8,33 @@ import node from "@astrojs/node";
 export default defineConfig({
   site: "https://thegallimaufry.show",
 
-  experimental: {
-    fonts: [
-      {
-        provider: fontProviders.local(),
-        name: "Lato",
-        cssVariable: "--tg-font-lato",
-        fallbacks: ["sans-serif"],
-        options: {
-          variants: [
-            {
-              weight: "300",
-              style: "normal",
-              src: ["./src/assets/fonts/Lato-Light.woff2"],
-            },
-            {
-              weight: "400",
-              style: "normal",
-              src: ["./src/assets/fonts/Lato-Regular.woff2"],
-            },
-            {
-              weight: "700",
-              style: "normal",
-              src: ["./src/assets/fonts/Lato-Bold.woff2"],
-            },
-          ],
-        },
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: "Lato",
+      cssVariable: "--tg-font-lato",
+      fallbacks: ["sans-serif"],
+      options: {
+        variants: [
+          {
+            weight: "300",
+            style: "normal",
+            src: ["./src/assets/fonts/Lato-Light.woff2"],
+          },
+          {
+            weight: "400",
+            style: "normal",
+            src: ["./src/assets/fonts/Lato-Regular.woff2"],
+          },
+          {
+            weight: "700",
+            style: "normal",
+            src: ["./src/assets/fonts/Lato-Bold.woff2"],
+          },
+        ],
       },
-    ],
-  },
+    },
+  ],
 
   integrations: [sitemap(), robotsTxt()],
 
