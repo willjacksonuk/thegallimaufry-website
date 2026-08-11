@@ -51,7 +51,7 @@ export default defineConfig({
 
   env: {
     schema: {
-      RESEND_API_KEY: envField.string({
+      LETTERMINT_API_TOKEN: envField.string({
         context: "server",
         access: "secret",
       }),

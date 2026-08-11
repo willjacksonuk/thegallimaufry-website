@@ -3,7 +3,14 @@ import type { Episode } from "../types/episode";
 const PODCAST_ID = import.meta.env.BUZZSPROUT_PODCAST_ID;
 const API_TOKEN = import.meta.env.BUZZSPROUT_API_TOKEN;
 
-export async function getEpisodes(): Promise<Episode[]> {
+let episodesPromise: Promise<Episode[]> | null = null;
+
+export function getEpisodes(): Promise<Episode[]> {
+  episodesPromise ??= fetchEpisodes();
+  return episodesPromise;
+}
+
+async function fetchEpisodes(): Promise<Episode[]> {
   const response = await fetch(
     `https://www.buzzsprout.com/api/${PODCAST_ID}/episodes.json`,
     {

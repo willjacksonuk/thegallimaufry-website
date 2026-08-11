@@ -1,9 +1,10 @@
-import { Resend } from "resend";
+import { Lettermint } from "lettermint";
+import escapeHtml from "escape-html";
 import { defineAction } from "astro:actions";
-import { RESEND_API_KEY, FROM_EMAIL, TO_EMAIL } from "astro:env/server";
+import { LETTERMINT_API_TOKEN, FROM_EMAIL, TO_EMAIL } from "astro:env/server";
 import { z } from "astro/zod";
 
-const resend = new Resend(RESEND_API_KEY);
+const email = Lettermint.email(LETTERMINT_API_TOKEN);
 
 export const server = {
   sendMail: defineAction({
@@ -20,24 +21,31 @@ export const server = {
       }
 
       try {
-        const { name, email, message } = input;
+        const { name, email: senderEmail, message } = input;
+        const safeName = escapeHtml(name);
+        const safeEmail = escapeHtml(senderEmail);
+        const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
 
-        await resend.emails.send({
-          from: FROM_EMAIL,
-          to: TO_EMAIL,
-          subject: `New contact message from ${name}`,
-          html: `
-            <h2>New contact message</h2>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <h3>Message:</h3>
-            <p>${message.replace(/\n/g, "<br>")}</p>
-          `,
-        });
+        await email
+          .from(FROM_EMAIL)
+          .to(TO_EMAIL)
+          .subject(`New web enquiry from ${name}`)
+          .html(`
+            <h2>New web enquiry</h2>
+            <p><strong>Name:</strong> ${safeName}</p>
+            <p><strong>Email:</strong> ${safeEmail}</p>
+            <h3>Message</h3>
+            <p>${safeMessage}</p>
+          `)
+          .text(
+            `New web enquiry\n\nName: ${name}\nEmail: ${senderEmail}\n\nMessage:\n${message}`,
+          )
+          .send();
 
-        return { success: true, message: "Email sent successfully" };
+        return { success: true, message: "Message sent successfully" };
       } catch (error) {
-        return { success: false, message: "There was an error sending the email" };
+        console.error("sendMail failed", error);
+        return { success: false, message: "There was an error sending the message" };
       }
     },
   }),

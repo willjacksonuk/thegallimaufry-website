@@ -8,7 +8,7 @@ Website for [The Gallimaufry](https://thegallimaufry.show) – a history podcast
 - [TypeScript](https://www.typescriptlang.org): type-safe JavaScript
 - [Dokploy](https://dokploy.com): self-hosted deployment
 - [Buzzsprout API](https://www.buzzsprout.com/api): episode data retrieved at build time
-- [Resend](https://resend.com): transactional email
+- [Lettermint](https://lettermint.co): transactional email
 - [vanilla-cookieconsent](https://cookieconsent.orestbida.com): cookie consent management
 - [url-slug](https://www.npmjs.com/package/url-slug): URL-friendly slugs from episode titles
 
@@ -30,8 +30,11 @@ npm install
 ### Environment Variables
 Create a `.env` file in the project root:
 ```
-BUZZSPROUT_API_TOKEN=your_token_here
-BUZZSPROUT_PODCAST_ID=your_podcast_id_here
+BUZZSPROUT_API_TOKEN=your_buzzsprout_api_token
+BUZZSPROUT_PODCAST_ID=your_buzzsprout_podcast_id
+FROM_EMAIL=enquiries@thegallimaufry.show
+TO_EMAIL=info@thegallimaufry.show
+LETTERMINT_API_TOKEN=your_lettermint_api_token
 ```
 
 ### Development
@@ -60,9 +63,9 @@ Add these as both application environment variables and build-time values:
 | Variable | Build setting | Purpose |
 | --- | --- | --- |
 | `BUZZSPROUT_API_TOKEN` | Secret | Fetch episodes without putting the token in the image |
-| `RESEND_API_KEY` | Secret | Build validation and contact-form email at runtime |
+| `LETTERMINT_API_TOKEN` | Secret | Build validation and contact-form email at runtime |
 | `BUZZSPROUT_PODCAST_ID` | Argument | Podcast to fetch during the build |
-| `FROM_EMAIL` | Argument | Verified Resend sender address |
+| `FROM_EMAIL` | Argument | Verified Lettermint sender address |
 | `TO_EMAIL` | Argument | Contact-form recipient |
 
 In Dokploy, enter the two secrets under **Build-time Secrets** and the other
