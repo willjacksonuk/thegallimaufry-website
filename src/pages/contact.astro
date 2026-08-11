@@ -10,24 +10,28 @@ import Layout from "../layouts/Layout.astro";
     <script>
         import { actions } from "astro:actions";
 
-        const form = document.getElementById("contact-form");
-        const successMessage = document.getElementById("success-message");
+        function setupContactForm() {
+            const form = document.getElementById(
+                "contact-form",
+            ) as HTMLFormElement | null;
+            const successMessage = document.getElementById("success-message");
+            if (!form) return;
 
-        const handleSubmit = async (event: Event) => {
-            event.preventDefault();
-            const form = event.target as HTMLFormElement;
-            const sendFormData = new FormData(form);
-            const result = await actions.sendMail(sendFormData);
-            if (result.data?.success) {
-                form.reset();
-                form.style.display = "none";
-                if (successMessage) successMessage.style.display = "block";
-            }
-        };
+            const handleSubmit = async (event: Event) => {
+                event.preventDefault();
+                const sendFormData = new FormData(form);
+                const result = await actions.sendMail(sendFormData);
+                if (result.data?.success) {
+                    form.reset();
+                    form.style.display = "none";
+                    if (successMessage) successMessage.style.display = "block";
+                }
+            };
 
-        if (form) {
             form.addEventListener("submit", handleSubmit);
         }
+
+        document.addEventListener("astro:page-load", setupContactForm);
     </script>
 
     <!-- Contact form -->
@@ -39,7 +43,12 @@ import Layout from "../layouts/Layout.astro";
                         <div class="page-heading">
                             <h1>Contact us</h1>
                         </div>
-                        <p>Got a question, correction, curious historical rabbit hole, or half-remembered tale you think we should look into? Send us a message - we’d love to hear from you.</p>
+                        <p>
+                            Got a question, correction, curious historical
+                            rabbit hole, or half-remembered tale you think we
+                            should look into? Send us a message - we’d love to
+                            hear from you.
+                        </p>
                     </div>
                     <div id="contact-form-container">
                         <p id="success-message" style="display: none;">
