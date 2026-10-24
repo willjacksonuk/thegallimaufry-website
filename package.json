@@ -9,7 +9,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "vitest run"
   },
   "dependencies": {
     "@astrojs/node": "^11.0.3",
@@ -26,6 +27,7 @@
     "esbuild@0.28.2": true
   },
   "devDependencies": {
-    "@types/escape-html": "^1.0.4"
+    "@types/escape-html": "^1.0.4",
+    "vitest": "^5.0.5"
   }
 }
