@@ -4,6 +4,14 @@ Website for The Gallimaufry history podcast: episode listings, show information,
 
 ## Language
 
+**Show**:
+The Gallimaufry podcast as a whole: its name, description and the places people can listen to it.
+_Avoid_: Podcast, series, channel
+
+**Episode**:
+One instalment of the **Show**, as published on Buzzsprout, with its own page on the site.
+_Avoid_: Post, track, entry
+
 **Enquiry**:
 A message a visitor sends through the contact form, meant for the show's inbox.
 _Avoid_: Submission, contact, lead
@@ -30,6 +38,7 @@ _Avoid_: Sending, forwarding
 
 ## Relationships
 
+- A **Show** has many **Episodes**; each **Episode** has exactly one page, and no two **Episodes** may share a page address
 - Every **Enquiry** goes through **Screening**, then ends in exactly one of: **Delivery**, a **Silent drop**, or a failure the sender is told about
 - An **Enquiry** that shows a clear bot signal during **Screening** is treated as a **Spam enquiry** and gets a **Silent drop**
 - A genuine **Enquiry** must never get a **Silent drop**: losing one is worse than letting some spam through
