@@ -25,6 +25,8 @@ import { TURNSTILE_SITE_KEY } from "astro:env/client";
             }
         }
 
+        // The widget's container id must not be "turnstile": browsers expose
+        // element ids as window properties, which would shadow window.turnstile
         // Load the Turnstile script once and reuse it across page navigations
         let turnstileLoader: Promise<Turnstile> | null = null;
 
@@ -53,7 +55,7 @@ import { TURNSTILE_SITE_KEY } from "astro:env/client";
             ) as HTMLFormElement | null;
             const successMessage = document.getElementById("success-message");
             const errorMessage = document.getElementById("error-message");
-            const challenge = document.getElementById("turnstile");
+            const challenge = document.getElementById("turnstile-widget");
             if (!form) return;
 
             const loadedAt = Date.now();
@@ -136,7 +138,7 @@ import { TURNSTILE_SITE_KEY } from "astro:env/client";
                         </p>
                         <p id="error-message" role="alert" style="display: none;">
                             Sorry, we couldn't send your message. Please try
-                            again, or email us at
+                            again, or email us at{" "}
                             <a href="mailto:info@thegallimaufry.show"
                                 >info@thegallimaufry.show</a
                             >.
@@ -173,7 +175,7 @@ import { TURNSTILE_SITE_KEY } from "astro:env/client";
                                 placeholder="Message"
                                 required></textarea>
                             <div
-                                id="turnstile"
+                                id="turnstile-widget"
                                 data-sitekey={TURNSTILE_SITE_KEY}
                             >
                             </div>
