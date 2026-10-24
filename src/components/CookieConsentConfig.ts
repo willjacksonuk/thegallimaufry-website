@@ -56,7 +56,7 @@ export const config: CookieConsentConfig = {
         consentModal: {
           title: 'A Brief Word on Cookies',
           description:
-            'We use Google Analytics to see how people find and use this site — things like which pages are visited and how long people spend on them. The data is anonymous and used only to improve the site. We don\'t run ads or share data with third parties.',
+            'We use Google Analytics to see how people find and use this site — things like which pages are visited and how long people spend on them. The data is anonymous and used only to improve the site. We don\'t run ads or sell or share data for advertising.',
           acceptAllBtn: 'Accept',
           acceptNecessaryBtn: 'Decline',
         },
@@ -68,9 +68,15 @@ export const config: CookieConsentConfig = {
           closeIconLabel: 'Close',
           sections: [
             {
+              title: 'Strictly Necessary',
+              description:
+                'The contact form uses Cloudflare Turnstile to check that messages come from people rather than spam bots. It sets no tracking cookies and is only used to protect the form.',
+              linkedCategory: 'necessary',
+            },
+            {
               title: 'Analytics Cookies',
               description:
-                'Google Analytics helps us understand how visitors find and use the site. All data is anonymous. We don\'t use it for advertising or share it with third parties.',
+                'Google Analytics helps us understand how visitors find and use the site. All data is anonymous. We don\'t use it for advertising or sell or share it with anyone.',
               linkedCategory: 'analytics',
             },
           ],

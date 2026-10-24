@@ -520,7 +520,17 @@ form button:hover {
     background: color-mix(in srgb, var(--tg-accent) 10%, transparent);
 }
 
-#success-message {
+/* Honeypot field: off screen rather than display: none, which bots look for */
+.form-extra {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+#success-message,
+#error-message {
     font-size: 1rem;
     line-height: 1.75;
     color: var(--tg-muted);
