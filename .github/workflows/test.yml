@@ -1,0 +1,34 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    # Placeholders so Astro's env schema validates. The tests use fakes and
+    # never call Lettermint, Buzzsprout or Turnstile, so no real secrets are needed.
+    # The Turnstile values are Cloudflare's public test keys.
+    env:
+      TURNSTILE_SITE_KEY: 1x00000000000000000000AA
+      TURNSTILE_SECRET_KEY: 1x0000000000000000000000000000000AA
+      LETTERMINT_API_TOKEN: ci-placeholder
+      BUZZSPROUT_API_TOKEN: ci-placeholder
+      BUZZSPROUT_PODCAST_ID: ci-placeholder
+      FROM_EMAIL: ci@example.com
+      TO_EMAIL: ci@example.com
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      # Generates the astro:* module types that tsc needs
+      - run: npx astro sync
+      - run: npx tsc --noEmit
