@@ -376,6 +376,17 @@ a.subscribe-button {
     white-space: nowrap;
 }
 
+.site-footer-cookies {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 0.75rem;
+    color: var(--tg-muted);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .site-footer-copyright {
     font-size: 0.75rem;
     color: var(--tg-muted);
