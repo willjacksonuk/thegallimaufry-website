@@ -1,0 +1,75 @@
+---
+/* Source: https://daniel.es/blog/the-ultimate-astro-google-analytics-guide */
+
+// Google Analytics (GA4) and the cookie consent modal that gates it.
+// Layout includes this twice: part="head" for the Google tag and its consent
+// defaults, part="body" for the modal's persistent container.
+//
+// The ClientRouter doesn't rerun a script it has already run (it matches them
+// by src or text), so none of these run again on view-transition navigations.
+// That matters for the consent defaults: running them again would reset an
+// accepted consent back to denied.
+
+import "vanilla-cookieconsent/dist/cookieconsent.css";
+
+interface Props {
+  part: "head" | "body";
+}
+
+const { part } = Astro.props;
+
+const MEASUREMENT_ID = "G-MR1597S2J4";
+---
+
+{
+  part === "head" && (
+    <>
+      <script
+        is:inline
+        src={`https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`}
+      />
+      <script is:inline define:vars={{ MEASUREMENT_ID }}>
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function gtag() {
+          window.dataLayer.push(arguments);
+        };
+        window.gtag("js", new Date());
+        // Consent defaults must be set before gtag config runs
+        window.gtag("consent", "default", {
+          ad_storage: "denied",
+          ad_user_data: "denied",
+          ad_personalization: "denied",
+          analytics_storage: "denied",
+        });
+        document.addEventListener("astro:page-load", () => {
+          window.gtag("config", MEASUREMENT_ID);
+        });
+      </script>
+    </>
+  )
+}
+
+{
+  part === "body" && (
+    <div transition:persist="cc-container" id="cc-container">
+      <script>
+        import { run } from "vanilla-cookieconsent";
+        import { config } from "./CookieConsentConfig";
+
+        run(config);
+      </script>
+
+      <script is:inline>
+        document.addEventListener("astro:before-preparation", () => {
+          const htmlClassName = window.document.documentElement.className;
+          window._showConsentClass = htmlClassName.includes("show--consent");
+        });
+
+        document.addEventListener("astro:before-swap", (event) => {
+          const showConsent = window._showConsentClass ? " show--consent" : "";
+          event.newDocument.documentElement.className += showConsent;
+        });
+      </script>
+    </div>
+  )
+}
