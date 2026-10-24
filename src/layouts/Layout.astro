@@ -5,7 +5,8 @@ import { SEO } from "astro-seo";
 
 import "../styles/global.css";
 import "../styles/responsive.css";
-import CookieConsent from "../components/CookieConsent.astro";
+import AnalyticsConsent from "../components/AnalyticsConsent.astro";
+import * as show from "../lib/show";
 
 interface Props {
   title?: string;
@@ -16,8 +17,8 @@ interface Props {
 
 const {
   title = "The Gallimaufry History Podcast",
-  description = "Two enthusiasts of the past explore the weird, the overlooked, and the occasionally ridiculous. New episodes monthly, crafted in a carpet shop basement.",
-  image = "https://thegallimaufry.show/og-default.jpg",
+  description = show.description,
+  image = show.defaultImage,
   imageAlt = "The Gallimaufry History Podcast",
 } = Astro.props;
 ---
@@ -27,10 +28,6 @@ const {
     <meta charset="utf-8" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.css"
-    />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <Font cssVariable="--tg-font-lato" />
@@ -66,28 +63,8 @@ const {
       }}
     />
 
-    <!-- GA4 -->
-    <script
-      is:inline
-      src="https://www.googletagmanager.com/gtag/js?id=G-MR1597S2J4"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function gtag() {
-        window.dataLayer.push(arguments);
-      };
-      window.gtag("js", new Date());
-      window.gtag("consent", "default", {
-        ad_storage: "denied",
-        ad_user_data: "denied",
-        ad_personalization: "denied",
-        analytics_storage: "denied",
-      });
-    </script>
-    <script>
-      document.addEventListener("astro:page-load", () => {
-        window.gtag("config", "G-MR1597S2J4");
-      });
-    </script>
+    <!-- GA4 and cookie consent -->
+    <AnalyticsConsent part="head" />
 
     <!-- Responsive nav -->
     <script is:inline>
@@ -133,23 +110,7 @@ const {
     <!-- Main content  -->
     <main>
       <slot />
-      <div transition:persist="cc-container" id="cc-container">
-        <CookieConsent />
-
-        <script is:inline>
-          document.addEventListener("astro:before-preparation", () => {
-            const htmlClassName = window.document.documentElement.className;
-            window._showConsentClass = htmlClassName.includes("show--consent");
-          });
-
-          document.addEventListener("astro:before-swap", (event) => {
-            const showConsent = window._showConsentClass
-              ? " show--consent"
-              : "";
-            event.newDocument.documentElement.className += showConsent;
-          });
-        </script>
-      </div>
+      <AnalyticsConsent part="body" />
     </main>
 
     <!-- Footer -->

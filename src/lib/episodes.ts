@@ -1,7 +1,6 @@
 import convert from "url-slug";
 import type { BuzzsproutEpisode } from "../types/episode";
-
-const SITE_URL = "https://thegallimaufry.show";
+import * as show from "./show";
 
 // An Episode ready for the site's pages
 export interface Episode {
@@ -65,7 +64,7 @@ function toEpisodes(raw: BuzzsproutEpisode[]): Episode[] {
 function toEpisode(raw: BuzzsproutEpisode): Episode {
   const slug = slugFor(raw.title);
   const path = `/episodes/${slug}`;
-  const url = `${SITE_URL}${path}`;
+  const url = `${show.url}${path}`;
   const plainDescription = toPlainDescription(raw.description);
   const isoDuration = durationToIso(raw.duration);
 
@@ -84,8 +83,8 @@ function toEpisode(raw: BuzzsproutEpisode): Episode {
     },
     partOfSeries: {
       "@type": "PodcastSeries",
-      name: "The Gallimaufry",
-      url: SITE_URL,
+      name: show.name,
+      url: show.url,
     },
     ...(raw.episode_number && { episodeNumber: raw.episode_number }),
     ...(raw.season_number && { seasonNumber: raw.season_number }),
