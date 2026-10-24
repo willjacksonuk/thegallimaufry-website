@@ -63,6 +63,14 @@ export default defineConfig({
         context: "server",
         access: "public",
       }),
+      TURNSTILE_SITE_KEY: envField.string({
+        context: "client",
+        access: "public",
+      }),
+      TURNSTILE_SECRET_KEY: envField.string({
+        context: "server",
+        access: "secret",
+      }),
       BUZZSPROUT_API_TOKEN: envField.string({
         context: "server",
         access: "secret",

@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { TURNSTILE_SITE_KEY } from "astro:env/client";
 ---
 
 <Layout
@@ -10,22 +11,100 @@ import Layout from "../layouts/Layout.astro";
     <script>
         import { actions } from "astro:actions";
 
+        interface Turnstile {
+            render(
+                container: HTMLElement,
+                options: { sitekey: string; action?: string },
+            ): string;
+            reset(widgetId: string): void;
+        }
+
+        declare global {
+            interface Window {
+                turnstile?: Turnstile;
+            }
+        }
+
+        // Load the Turnstile script once and reuse it across page navigations
+        let turnstileLoader: Promise<Turnstile> | null = null;
+
+        function loadTurnstile(): Promise<Turnstile> {
+            if (window.turnstile) return Promise.resolve(window.turnstile);
+            turnstileLoader ??= new Promise((resolve, reject) => {
+                const script = document.createElement("script");
+                script.src =
+                    "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+                script.onload = () =>
+                    window.turnstile
+                        ? resolve(window.turnstile)
+                        : reject(new Error("Turnstile unavailable"));
+                script.onerror = () => {
+                    turnstileLoader = null;
+                    reject(new Error("Turnstile failed to load"));
+                };
+                document.head.appendChild(script);
+            });
+            return turnstileLoader;
+        }
+
         function setupContactForm() {
             const form = document.getElementById(
                 "contact-form",
             ) as HTMLFormElement | null;
             const successMessage = document.getElementById("success-message");
+            const errorMessage = document.getElementById("error-message");
+            const challenge = document.getElementById("turnstile");
             if (!form) return;
+
+            const loadedAt = Date.now();
+            let turnstile: Turnstile | null = null;
+            let widgetId: string | null = null;
+
+            const showError = () => {
+                if (errorMessage) errorMessage.style.display = "block";
+            };
+
+            if (challenge?.dataset.sitekey) {
+                loadTurnstile()
+                    .then((loaded) => {
+                        turnstile = loaded;
+                        widgetId = loaded.render(challenge, {
+                            sitekey: challenge.dataset.sitekey!,
+                            action: "contact",
+                        });
+                    })
+                    .catch(showError);
+            }
 
             const handleSubmit = async (event: Event) => {
                 event.preventDefault();
+                if (errorMessage) errorMessage.style.display = "none";
+
                 const sendFormData = new FormData(form);
-                const result = await actions.sendMail(sendFormData);
-                if (result.data?.success) {
-                    form.reset();
-                    form.style.display = "none";
-                    if (successMessage) successMessage.style.display = "block";
+                sendFormData.set("elapsed", String(Date.now() - loadedAt));
+
+                // Without a challenge token the enquiry would be dropped, so stop here
+                if (!sendFormData.get("cf-turnstile-response")) {
+                    showError();
+                    return;
                 }
+
+                try {
+                    const result = await actions.sendMail(sendFormData);
+                    if (result.data?.success) {
+                        form.reset();
+                        form.style.display = "none";
+                        if (successMessage)
+                            successMessage.style.display = "block";
+                        return;
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+
+                // Challenge tokens are single use, so get a fresh one for a retry
+                if (turnstile && widgetId) turnstile.reset(widgetId);
+                showError();
             };
 
             form.addEventListener("submit", handleSubmit);
@@ -55,6 +134,13 @@ import Layout from "../layouts/Layout.astro";
                             Thanks for getting in touch. We'll get back to you
                             soon.
                         </p>
+                        <p id="error-message" role="alert" style="display: none;">
+                            Sorry, we couldn't send your message. Please try
+                            again, or email us at
+                            <a href="mailto:info@thegallimaufry.show"
+                                >info@thegallimaufry.show</a
+                            >.
+                        </p>
                         <form
                             id="contact-form"
                             method="POST"
@@ -66,21 +152,31 @@ import Layout from "../layouts/Layout.astro";
                                 placeholder="Name"
                                 required
                             />
-                            <input
-                                type="text"
-                                name="honeypot"
-                                style="display: none;"
-                                tabindex="-1"
-                                autocomplete="off"
-                            />
+                            <div class="form-extra" aria-hidden="true">
+                                <label for="website">Website</label>
+                                <input
+                                    id="website"
+                                    type="text"
+                                    name="website"
+                                    tabindex="-1"
+                                    autocomplete="off"
+                                />
+                            </div>
                             <input
                                 name="email"
                                 type="email"
                                 placeholder="Email"
                                 required
                             />
-                            <textarea name="message" placeholder="Message"
-                            ></textarea>
+                            <textarea
+                                name="message"
+                                placeholder="Message"
+                                required></textarea>
+                            <div
+                                id="turnstile"
+                                data-sitekey={TURNSTILE_SITE_KEY}
+                            >
+                            </div>
                             <button type="submit"> Send </button>
                         </form>
                     </div>

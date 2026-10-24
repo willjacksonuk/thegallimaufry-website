@@ -35,7 +35,12 @@ BUZZSPROUT_PODCAST_ID=your_buzzsprout_podcast_id
 FROM_EMAIL=enquiries@thegallimaufry.show
 TO_EMAIL=info@thegallimaufry.show
 LETTERMINT_API_TOKEN=your_lettermint_api_token
+TURNSTILE_SITE_KEY=1x00000000000000000000AA
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
 ```
+The Turnstile values above are Cloudflare's always-pass test keys for local
+development. Create a real widget (Managed mode, hostname `thegallimaufry.show`)
+under **Turnstile** in the Cloudflare dashboard for production.
 
 ### Development
 ```bash
@@ -67,9 +72,11 @@ Add these as both application environment variables and build-time values:
 | `BUZZSPROUT_PODCAST_ID` | Argument | Podcast to fetch during the build |
 | `FROM_EMAIL` | Argument | Verified Lettermint sender address |
 | `TO_EMAIL` | Argument | Contact-form recipient |
+| `TURNSTILE_SITE_KEY` | Argument | Public Turnstile key, built into the contact page |
+| `TURNSTILE_SECRET_KEY` | Secret | Verifies the contact-form spam check at runtime |
 
-In Dokploy, enter the two secrets under **Build-time Secrets** and the other
-three under **Build-time Arguments**. Also enter all five in the application's
+In Dokploy, enter the three secrets under **Build-time Secrets** and the other
+four under **Build-time Arguments**. Also enter all seven in the application's
 normal Environment tab so they are present when the server starts.
 
 Add `thegallimaufry.show` in the application's Domains tab, route `/` to
@@ -77,6 +84,20 @@ container port `4321`, and enable HTTPS. Test the Dokploy-generated preview
 domain before changing DNS. When ready, change the domain's DNS record to the
 Dokploy server and remove the old Cloudflare Pages/Workers project only after
 the site and contact form have been verified.
+
+---
+
+## Contact form spam protection
+Enquiries that look like spam are silently dropped: the sender sees the normal
+success message, and the reason is logged to the container (no message content).
+An enquiry is dropped when:
+- the hidden `website` honeypot field is filled in
+- it was sent less than 3 seconds after the page loaded
+- both the name and the message look like random strings
+- the Cloudflare Turnstile check fails
+
+If Turnstile can't load or sending fails, the form shows an error with the
+enquiries email address instead.
 
 ---
 
