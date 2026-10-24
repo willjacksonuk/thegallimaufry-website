@@ -53,6 +53,8 @@ Run the tests with:
 npm test
 ```
 
+Every pull request runs `npm test` and the type check (`npx tsc --noEmit`) via GitHub Actions.
+
 ### Build
 ```bash
 npm run build
