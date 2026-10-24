@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { TURNSTILE_SITE_KEY } from "astro:env/client";
+import { HONEYPOT_FIELD } from "../lib/enquiry-fields";
 ---
 
 <Layout
@@ -10,109 +11,14 @@ import { TURNSTILE_SITE_KEY } from "astro:env/client";
     <!-- Set up the contact form -->
     <script>
         import { actions } from "astro:actions";
+        import { setUpContactForm } from "../scripts/contact-form";
 
-        interface Turnstile {
-            render(
-                container: HTMLElement,
-                options: { sitekey: string; action?: string },
-            ): string;
-            reset(widgetId: string): void;
-        }
-
-        declare global {
-            interface Window {
-                turnstile?: Turnstile;
-            }
-        }
-
-        // The widget's container id must not be "turnstile": browsers expose
-        // element ids as window properties, which would shadow window.turnstile
-        // Load the Turnstile script once and reuse it across page navigations
-        let turnstileLoader: Promise<Turnstile> | null = null;
-
-        function loadTurnstile(): Promise<Turnstile> {
-            if (window.turnstile) return Promise.resolve(window.turnstile);
-            turnstileLoader ??= new Promise((resolve, reject) => {
-                const script = document.createElement("script");
-                script.src =
-                    "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
-                script.onload = () =>
-                    window.turnstile
-                        ? resolve(window.turnstile)
-                        : reject(new Error("Turnstile unavailable"));
-                script.onerror = () => {
-                    turnstileLoader = null;
-                    reject(new Error("Turnstile failed to load"));
-                };
-                document.head.appendChild(script);
-            });
-            return turnstileLoader;
-        }
-
-        function setupContactForm() {
+        document.addEventListener("astro:page-load", () => {
             const form = document.getElementById(
                 "contact-form",
             ) as HTMLFormElement | null;
-            const successMessage = document.getElementById("success-message");
-            const errorMessage = document.getElementById("error-message");
-            const challenge = document.getElementById("turnstile-widget");
-            if (!form) return;
-
-            const loadedAt = Date.now();
-            let turnstile: Turnstile | null = null;
-            let widgetId: string | null = null;
-
-            const showError = () => {
-                if (errorMessage) errorMessage.style.display = "block";
-            };
-
-            if (challenge?.dataset.sitekey) {
-                loadTurnstile()
-                    .then((loaded) => {
-                        turnstile = loaded;
-                        widgetId = loaded.render(challenge, {
-                            sitekey: challenge.dataset.sitekey!,
-                            action: "contact",
-                        });
-                    })
-                    .catch(showError);
-            }
-
-            const handleSubmit = async (event: Event) => {
-                event.preventDefault();
-                if (errorMessage) errorMessage.style.display = "none";
-
-                const sendFormData = new FormData(form);
-                sendFormData.set("elapsed", String(Date.now() - loadedAt));
-
-                // Without a challenge token the enquiry would be dropped, so stop here
-                if (!sendFormData.get("cf-turnstile-response")) {
-                    showError();
-                    return;
-                }
-
-                try {
-                    const result = await actions.sendMail(sendFormData);
-                    if (result.data?.success) {
-                        form.reset();
-                        form.style.display = "none";
-                        if (successMessage)
-                            successMessage.style.display = "block";
-                        return;
-                    }
-                } catch (error) {
-                    console.error(error);
-                }
-
-                // Challenge tokens are single use, so get a fresh one for a retry
-                if (turnstile && widgetId) turnstile.reset(widgetId);
-                showError();
-            };
-
-            form.addEventListener("submit", handleSubmit);
-        }
-
-        document.addEventListener("astro:page-load", setupContactForm);
+            if (form) setUpContactForm(form, { send: actions.sendMail });
+        });
     </script>
 
     <!-- Contact form -->
@@ -159,7 +65,7 @@ import { TURNSTILE_SITE_KEY } from "astro:env/client";
                                 <input
                                     id="website"
                                     type="text"
-                                    name="website"
+                                    name={HONEYPOT_FIELD}
                                     tabindex="-1"
                                     autocomplete="off"
                                 />

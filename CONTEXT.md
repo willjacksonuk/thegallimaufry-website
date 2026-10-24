@@ -12,6 +12,10 @@ _Avoid_: Submission, contact, lead
 The checks every **Enquiry** goes through to decide whether it is a **Spam enquiry**, before anything is delivered.
 _Avoid_: Filtering, validation, moderation
 
+**Challenge**:
+The check a visitor passes on the contact form to show they are a person rather than a bot. Passing it is part of **Screening**.
+_Avoid_: Captcha, human check
+
 **Spam enquiry**:
 An enquiry produced by a bot rather than a person, typically random strings in the name and message fields.
 _Avoid_: Junk, abuse
@@ -29,7 +33,7 @@ _Avoid_: Sending, forwarding
 - Every **Enquiry** goes through **Screening**, then ends in exactly one of: **Delivery**, a **Silent drop**, or a failure the sender is told about
 - An **Enquiry** that shows a clear bot signal during **Screening** is treated as a **Spam enquiry** and gets a **Silent drop**
 - A genuine **Enquiry** must never get a **Silent drop**: losing one is worse than letting some spam through
-- When **Screening** itself can't finish (for example, the human check is unreachable), the sender is told it failed rather than getting a **Silent drop**
+- When **Screening** itself can't finish (for example, the **Challenge** can't be checked), the sender is told it failed rather than getting a **Silent drop**
 
 ## Example dialogue
 

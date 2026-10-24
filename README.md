@@ -106,6 +106,10 @@ The rules live in `src/lib/enquiry.ts`, with tests alongside in `src/lib/enquiry
 If Turnstile can't load or sending fails, the form shows an error with the
 enquiries email address instead.
 
+The browser half lives in `src/scripts/contact-form.ts`, with tests alongside in
+`src/scripts/contact-form.test.ts`. Send is disabled while an enquiry is
+sending, so a double click can't send it twice.
+
 ---
 
 ## Project Structure
