@@ -48,6 +48,11 @@ npm run dev
 ```
 Open `http://localhost:4321`.
 
+Run the tests with:
+```bash
+npm test
+```
+
 ### Build
 ```bash
 npm run build
@@ -95,6 +100,8 @@ An enquiry is dropped when:
 - it was sent less than 3 seconds after the page loaded
 - both the name and the message look like random strings
 - the Cloudflare Turnstile check fails
+
+The rules live in `src/lib/enquiry.ts`, with tests alongside in `src/lib/enquiry.test.ts`.
 
 If Turnstile can't load or sending fails, the form shows an error with the
 enquiries email address instead.

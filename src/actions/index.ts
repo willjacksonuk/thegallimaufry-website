@@ -1,5 +1,3 @@
-import { Lettermint } from "lettermint";
-import escapeHtml from "escape-html";
 import { defineAction } from "astro:actions";
 import {
   LETTERMINT_API_TOKEN,
@@ -8,44 +6,20 @@ import {
   TURNSTILE_SECRET_KEY,
 } from "astro:env/server";
 import { z } from "astro/zod";
+import {
+  createEnquiryIntake,
+  createLettermintMailer,
+  createTurnstileVerifier,
+} from "../lib/enquiry";
 
-const email = Lettermint.email(LETTERMINT_API_TOKEN);
-
-// Real people take longer than this to fill in the form; bots usually don't
-const MIN_FILL_TIME_MS = 3000;
-
-// A single "word" of 10+ characters in mixed case, e.g. "NoPAQGOHmXjjpIUDrWTsyvp"
-const looksRandom = (value: string) => {
-  const trimmed = value.trim();
-  return (
-    trimmed.length >= 10 &&
-    !/\s/.test(trimmed) &&
-    /[a-z]/.test(trimmed) &&
-    /[A-Z]/.test(trimmed)
-  );
-};
-
-const passesTurnstile = async (token: string) => {
-  const response = await fetch(
-    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ secret: TURNSTILE_SECRET_KEY, response: token }),
-    },
-  );
-  if (!response.ok) {
-    throw new Error(`Turnstile siteverify returned ${response.status}`);
-  }
-  const result = (await response.json()) as { success: boolean };
-  return result.success;
-};
-
-// Spam enquiries are silently dropped: the sender sees success, we log the reason
-const silentDrop = (reason: string) => {
-  console.warn(`${new Date().toISOString()} contact form: dropped spam enquiry (${reason})`);
-  return { success: true, message: "Message sent" };
-};
+const intake = createEnquiryIntake({
+  verifier: createTurnstileVerifier(TURNSTILE_SECRET_KEY),
+  mailer: createLettermintMailer({
+    apiToken: LETTERMINT_API_TOKEN,
+    from: FROM_EMAIL,
+    to: TO_EMAIL,
+  }),
+});
 
 export const server = {
   sendMail: defineAction({
@@ -59,49 +33,27 @@ export const server = {
       "cf-turnstile-response": z.string().optional(),
     }),
     handler: async (input) => {
-      if (input.website) {
-        return silentDrop("honeypot");
-      }
+      const outcome = await intake.receive({
+        name: input.name,
+        email: input.email,
+        message: input.message,
+        honeypot: input.website,
+        fillTimeMs: input.elapsed,
+        challengeToken: input["cf-turnstile-response"],
+      });
 
-      if (input.elapsed === undefined || input.elapsed < MIN_FILL_TIME_MS) {
-        return silentDrop("too fast");
-      }
-
-      if (looksRandom(input.name) && looksRandom(input.message)) {
-        return silentDrop("random strings");
-      }
-
-      try {
-        const token = input["cf-turnstile-response"];
-        if (!token || !(await passesTurnstile(token))) {
-          return silentDrop("challenge failed");
-        }
-
-        const { name, email: senderEmail, message } = input;
-        const safeName = escapeHtml(name);
-        const safeEmail = escapeHtml(senderEmail);
-        const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
-
-        await email
-          .from(FROM_EMAIL)
-          .to(TO_EMAIL)
-          .subject(`New web enquiry from ${name}`)
-          .html(`
-            <h2>New web enquiry</h2>
-            <p><strong>Name:</strong> ${safeName}</p>
-            <p><strong>Email:</strong> ${safeEmail}</p>
-            <h3>Message</h3>
-            <p>${safeMessage}</p>
-          `)
-          .text(
-            `New web enquiry\n\nName: ${name}\nEmail: ${senderEmail}\n\nMessage:\n${message}`,
-          )
-          .send();
-
-        return { success: true, message: "Message sent successfully" };
-      } catch (error) {
-        console.error("sendMail failed", error);
-        return { success: false, message: "There was an error sending the message" };
+      switch (outcome.kind) {
+        case "delivered":
+          return { success: true, message: "Message sent successfully" };
+        case "dropped":
+          // Spam enquiries are silently dropped: the sender sees success, we log the reason
+          console.warn(
+            `${new Date().toISOString()} contact form: dropped spam enquiry (${outcome.reason})`,
+          );
+          return { success: true, message: "Message sent" };
+        case "failed":
+          console.error("sendMail failed", outcome.error);
+          return { success: false, message: "There was an error sending the message" };
       }
     },
   }),
