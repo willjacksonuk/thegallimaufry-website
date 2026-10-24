@@ -1,0 +1,13 @@
+---
+import { listenOn } from "../lib/show";
+---
+
+<div class="subscribe-buttons">
+  {
+    listenOn.map((platform) => (
+      <a href={platform.href} target="_blank" class="subscribe-button">
+        {platform.label}
+      </a>
+    ))
+  }
+</div>
