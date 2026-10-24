@@ -84,6 +84,13 @@ const {
       setupMobileNav();
     </script>
 
+    <!-- Media players swapped in by the ClientRouter -->
+    <script>
+      import { reloadFailedMedia } from "../scripts/media-reload";
+
+      document.addEventListener("astro:after-swap", () => reloadFailedMedia());
+    </script>
+
     <slot name="head" />
   </head>
   <body>
