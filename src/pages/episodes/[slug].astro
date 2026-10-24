@@ -2,72 +2,31 @@
 import Layout from "../../layouts/Layout.astro";
 import EpisodeHero from "../../components/EpisodeHero.astro";
 import EpisodePlayer from "../../components/EpisodePlayer.astro";
-import type { Episode } from "../../types/episode";
-import { durationToIso, getEpisodes } from "../../lib/buzzsprout";
-
-import convert from "url-slug";
+import { episodeCatalogue } from "../../lib/buzzsprout";
+import type { Episode } from "../../lib/episodes";
 
 export async function getStaticPaths() {
-  const episodes = await getEpisodes();
+  const episodes = await episodeCatalogue.all();
 
   return episodes.map((episode) => ({
-    params: { slug: convert(episode.title, { dictionary: { Æ: "A" } }) },
+    params: { slug: episode.slug },
     props: { episode },
   }));
 }
 
 const { episode } = Astro.props as { episode: Episode };
-
-const plainDescription = episode.description
-  ? episode.description
-      .replace(/<[^>]*>/g, "")
-      .replace(/&nbsp;/g, " ")
-      .replace(/&amp;/g, "&")
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">")
-      .replace(/&quot;/g, '"')
-      .trim()
-      .slice(0, 155)
-  : undefined;
-
-const episodeSlug = convert(episode.title, { dictionary: { Æ: "A" } });
-const episodeUrl = `https://thegallimaufry.show/episodes/${episodeSlug}`;
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "PodcastEpisode",
-  url: episodeUrl,
-  name: episode.title,
-  description: plainDescription,
-  datePublished: episode.published_at,
-  duration: durationToIso(episode.duration),
-  associatedMedia: {
-    "@type": "MediaObject",
-    contentUrl: episode.audio_url,
-    encodingFormat: "audio/mpeg",
-  },
-  partOfSeries: {
-    "@type": "PodcastSeries",
-    name: "The Gallimaufry",
-    url: "https://thegallimaufry.show",
-  },
-  ...(episode.episode_number && { episodeNumber: episode.episode_number }),
-  ...(episode.season_number && { seasonNumber: episode.season_number }),
-  ...(episode.artwork_url && { image: episode.artwork_url }),
-};
-
 ---
 
 <Layout
   title={episode.title}
-  description={plainDescription}
-  image={episode.artwork_url || undefined}
+  description={episode.plainDescription}
+  image={episode.artworkUrl}
   imageAlt={`Artwork for ${episode.title}`}
 >
   <script
     slot="head"
     type="application/ld+json"
-    set:html={JSON.stringify(jsonLd)}
+    set:html={JSON.stringify(episode.jsonLd)}
   />
 
   <!-- Hero section -->
@@ -81,7 +40,7 @@ const jsonLd = {
     <div class="episode-info-container">
       <div class="episode-info">
         <h2 class="section-header">Episode Notes</h2>
-        <div class="episode-notes" set:html={episode.description} />
+        <div class="episode-notes" set:html={episode.descriptionHtml} />
 
         <!-- Subscribe section -->
         <section class="container subscribe-section">
@@ -112,9 +71,9 @@ const jsonLd = {
       </div>
       <div class="episode-info">
         {
-          episode.artwork_url && (
+          episode.artworkUrl && (
             <img
-              src={episode.artwork_url}
+              src={episode.artworkUrl}
               alt={`Artwork for ${episode.title}`}
               width="100%"
             />

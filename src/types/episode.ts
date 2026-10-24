@@ -1,4 +1,4 @@
-export interface Episode {
+export interface BuzzsproutEpisode {
     id: number
     title: string
     audio_url: string

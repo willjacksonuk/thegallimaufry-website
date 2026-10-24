@@ -2,11 +2,9 @@
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
 
-import { getEpisodes } from "../lib/buzzsprout";
-import convert from "url-slug";
-import { durationToReadable, dateToReadable } from "../lib/buzzsprout";
+import { episodeCatalogue } from "../lib/buzzsprout";
 
-const episodes = await getEpisodes();
+const episodes = await episodeCatalogue.all();
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -45,20 +43,20 @@ const jsonLd = {
       {
         episodes.map((episode) => (
           <div class="episode-row">
-            <span class="episode-number">{episode.episode_number}</span>
+            <span class="episode-number">{episode.number}</span>
             <span class="episode-title">
               <h3>
-                <a href={`/episodes/${convert(episode.title, { dictionary: { Æ: "A" } })}`}>
+                <a href={episode.path}>
                   {episode.title}
                 </a>
               </h3>
             </span>
             <div class="episode-data">
               <span class="episode-date">
-                {dateToReadable(episode.published_at)}
+                {episode.readableDate}
               </span>
               <span class="episode-length">
-                {durationToReadable(episode.duration)}
+                {episode.readableLength}
               </span>
             </div>
           </div>

@@ -116,7 +116,8 @@ sending, so a double click can't send it twice.
 ```
 src/
 ├── lib/
-│   └── buzzsprout.ts    # API helper functions
+│   ├── buzzsprout.ts    # The Buzzsprout adapter
+│   └── episodes.ts      # The Episode catalogue
 ├── pages/
 │   ├── index.astro      # Episode listing
 │   └── episodes/
