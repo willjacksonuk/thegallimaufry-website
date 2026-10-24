@@ -1,7 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { TURNSTILE_SITE_KEY } from "astro:env/client";
-import { HONEYPOT_FIELD } from "../lib/enquiry-fields";
+import {
+    EMAIL_FIELD,
+    HONEYPOT_FIELD,
+    MESSAGE_FIELD,
+    NAME_FIELD,
+} from "../lib/enquiry-fields";
 import * as show from "../lib/show";
 ---
 
@@ -56,15 +61,15 @@ import * as show from "../lib/show";
                             class="grid gap-4"
                         >
                             <input
-                                name="name"
+                                name={NAME_FIELD}
                                 type="text"
                                 placeholder="Name"
                                 required
                             />
                             <div class="form-extra" aria-hidden="true">
-                                <label for="website">Website</label>
+                                <label for={HONEYPOT_FIELD}>Website</label>
                                 <input
-                                    id="website"
+                                    id={HONEYPOT_FIELD}
                                     type="text"
                                     name={HONEYPOT_FIELD}
                                     tabindex="-1"
@@ -72,13 +77,13 @@ import * as show from "../lib/show";
                                 />
                             </div>
                             <input
-                                name="email"
+                                name={EMAIL_FIELD}
                                 type="email"
                                 placeholder="Email"
                                 required
                             />
                             <textarea
-                                name="message"
+                                name={MESSAGE_FIELD}
                                 placeholder="Message"
                                 required></textarea>
                             <div
