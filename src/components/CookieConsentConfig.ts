@@ -6,6 +6,9 @@ declare global {
   interface Window {
     dataLayer: Record<string, any>[];
     gtag: (...args: any[]) => void;
+    // Defined in AnalyticsConsent.astro
+    grantAnalytics: () => void;
+    denyAnalytics: () => void;
   }
 }
 
@@ -31,17 +34,8 @@ export const config: CookieConsentConfig = {
       services: {
         ga4: {
           label: 'Google Analytics',
-          onAccept: () => {
-            window.gtag('consent', 'update', {
-              ad_storage: 'granted',
-              ad_user_data: 'granted',
-              ad_personalization: 'granted',
-              analytics_storage: 'granted',
-            });
-          },
-          onReject: () => {
-            // Consent stays denied — nothing to do
-          },
+          onAccept: () => window.grantAnalytics(),
+          onReject: () => window.denyAnalytics(),
           cookies: [
             { name: /^_ga/ },
           ],

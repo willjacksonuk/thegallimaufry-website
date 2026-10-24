@@ -2,13 +2,16 @@
 /* Source: https://daniel.es/blog/the-ultimate-astro-google-analytics-guide */
 
 // Google Analytics (GA4) and the cookie consent modal that gates it.
-// Layout includes this twice: part="head" for the Google tag and its consent
-// defaults, part="body" for the modal's persistent container.
+// Layout includes this twice: part="head" for the analytics setup, part="body"
+// for the modal's persistent container.
+//
+// Nothing reaches Google until a visitor accepts analytics: gtag.js is only
+// loaded by grantAnalytics, which the modal calls on Accept (and on each page
+// load for a visitor who accepted before).
 //
 // The ClientRouter doesn't rerun a script it has already run (it matches them
-// by src or text), so none of these run again on view-transition navigations.
-// That matters for the consent defaults: running them again would reset an
-// accepted consent back to denied.
+// by src or text), so the head script runs once per visit and its state
+// survives view-transition navigations.
 
 import "vanilla-cookieconsent/dist/cookieconsent.css";
 
@@ -23,29 +26,67 @@ const MEASUREMENT_ID = "G-MR1597S2J4";
 
 {
   part === "head" && (
-    <>
-      <script
-        is:inline
-        src={`https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`}
-      />
-      <script is:inline define:vars={{ MEASUREMENT_ID }}>
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function gtag() {
-          window.dataLayer.push(arguments);
-        };
-        window.gtag("js", new Date());
-        // Consent defaults must be set before gtag config runs
-        window.gtag("consent", "default", {
+    <script is:inline define:vars={{ MEASUREMENT_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function gtag() {
+        window.dataLayer.push(arguments);
+      };
+      window.gtag("consent", "default", {
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        analytics_storage: "denied",
+      });
+
+      let loaded = false;
+      let enabled = false;
+      let lastPageViewUrl = null;
+
+      // gtag config sends a page_view. Both Accept and astro:page-load can
+      // fire for the same page, so only the first one sends it
+      const sendPageView = () => {
+        if (!enabled || lastPageViewUrl === location.href) return;
+        lastPageViewUrl = location.href;
+        window.gtag("config", MEASUREMENT_ID);
+      };
+
+      window.grantAnalytics = () => {
+        if (enabled) return;
+        enabled = true;
+        window[`ga-disable-${MEASUREMENT_ID}`] = false;
+        if (!loaded) {
+          loaded = true;
+          const script = document.createElement("script");
+          script.async = true;
+          script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
+          document.head.appendChild(script);
+          window.gtag("js", new Date());
+        }
+        window.gtag("consent", "update", {
+          ad_storage: "granted",
+          ad_user_data: "granted",
+          ad_personalization: "granted",
+          analytics_storage: "granted",
+        });
+        sendPageView();
+      };
+
+      // Withdrawn consent: stop sending for the rest of this visit. The modal
+      // clears the _ga cookies, and gtag.js won't load on the next visit
+      window.denyAnalytics = () => {
+        if (!enabled) return;
+        enabled = false;
+        window.gtag("consent", "update", {
           ad_storage: "denied",
           ad_user_data: "denied",
           ad_personalization: "denied",
           analytics_storage: "denied",
         });
-        document.addEventListener("astro:page-load", () => {
-          window.gtag("config", MEASUREMENT_ID);
-        });
-      </script>
-    </>
+        window[`ga-disable-${MEASUREMENT_ID}`] = true;
+      };
+
+      document.addEventListener("astro:page-load", sendPageView);
+    </script>
   )
 }
 
@@ -53,10 +94,17 @@ const MEASUREMENT_ID = "G-MR1597S2J4";
   part === "body" && (
     <div transition:persist="cc-container" id="cc-container">
       <script>
-        import { run } from "vanilla-cookieconsent";
+        import { run, showPreferences } from "vanilla-cookieconsent";
         import { config } from "./CookieConsentConfig";
 
         run(config);
+
+        // The footer's "Cookie settings" button is swapped on every navigation,
+        // so listen on the document rather than on the button
+        document.addEventListener("click", (event) => {
+          const target = event.target as Element | null;
+          if (target?.closest("[data-show-cookie-preferences]")) showPreferences();
+        });
       </script>
 
       <script is:inline>
