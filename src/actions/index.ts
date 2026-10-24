@@ -11,6 +11,14 @@ import {
   createLettermintMailer,
   createTurnstileVerifier,
 } from "../lib/enquiry";
+import {
+  CHALLENGE_TOKEN_FIELD,
+  ELAPSED_FIELD,
+  EMAIL_FIELD,
+  HONEYPOT_FIELD,
+  MESSAGE_FIELD,
+  NAME_FIELD,
+} from "../lib/enquiry-fields";
 
 const intake = createEnquiryIntake({
   verifier: createTurnstileVerifier(TURNSTILE_SECRET_KEY),
@@ -25,21 +33,21 @@ export const server = {
   sendMail: defineAction({
     accept: "form",
     input: z.object({
-      name: z.string().min(1, "Name is required"),
-      email: z.string().email("Invalid email"),
-      message: z.string().min(1, "Message is required"),
-      website: z.string().optional(),
-      elapsed: z.coerce.number().optional(),
-      "cf-turnstile-response": z.string().optional(),
+      [NAME_FIELD]: z.string().min(1, "Name is required"),
+      [EMAIL_FIELD]: z.string().email("Invalid email"),
+      [MESSAGE_FIELD]: z.string().min(1, "Message is required"),
+      [HONEYPOT_FIELD]: z.string().optional(),
+      [ELAPSED_FIELD]: z.coerce.number().optional(),
+      [CHALLENGE_TOKEN_FIELD]: z.string().optional(),
     }),
     handler: async (input) => {
       const outcome = await intake.receive({
-        name: input.name,
-        email: input.email,
-        message: input.message,
-        honeypot: input.website,
-        fillTimeMs: input.elapsed,
-        challengeToken: input["cf-turnstile-response"],
+        name: input[NAME_FIELD],
+        email: input[EMAIL_FIELD],
+        message: input[MESSAGE_FIELD],
+        honeypot: input[HONEYPOT_FIELD],
+        fillTimeMs: input[ELAPSED_FIELD],
+        challengeToken: input[CHALLENGE_TOKEN_FIELD],
       });
 
       switch (outcome.kind) {
